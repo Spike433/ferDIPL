@@ -2,7 +2,7 @@
 
 ## You can only add extra subjects and write them off on 2nd and 3nd semestar
 
-Oterwise you will be chared and won't be able to remove them because your complete structure (not by semester) isn't satisfied
+Oterwise you will be charged and won't be able to remove them because your complete ects study structure (not by semester, WHOLE) isn't satisfied
 
 
 # Greedy method
