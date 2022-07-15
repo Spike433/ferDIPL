@@ -1,4 +1,4 @@
 
-![Whiteboard(1).jpg](Whiteboard(1).jpg)
+![Whiteboard(1).png](Whiteboard(1).png)
 
 ![logo.jpg](logo.jpg)
