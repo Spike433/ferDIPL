@@ -1,6 +1,6 @@
 # Important notes
 
-## RI, RZ, ZOM degree doesn't matter, we all get the same :) 
+## RI, RZ, ZOM degree doesn't matter, we all get the same 
 
 https://www.fer.unizg.hr/studiji/dipl/rac
 
