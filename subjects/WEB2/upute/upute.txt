@@ -1,0 +1,8 @@
+Primjeri su pisani u node.js-u i ovise o paketima trećih strana zapisanih u package.json. Za pokretanje primjera potrebno je imati (relativno) novu verzija node.js-a (npr. 14) te u svakom primjeru jednokratno obnoviti biblioteke navedene u package.json naredbom 
+    npm install
+što će stvoriti mapu node_modules s potrebnim bibliotekama. Nakon toga primjer se može pokrenuti s 
+    node naziv_datoteke.js, npr. node 01-basic-auth.js
+
+Primjeri 3-9 ovise o varijablama okruženja koje iz (iz sigurnosnih razloga) nisu dio repozitorija, pa je potrebno iskopirati .env datoteke iz priložene zip datoteke.
+
+
