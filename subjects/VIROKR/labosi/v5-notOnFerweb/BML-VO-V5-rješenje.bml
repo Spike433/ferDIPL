@@ -1,0 +1,24 @@
+<?BML version="1.0"?>
+<act>
+<ra:animation xmlns:ra="extern">
+	<bml id="bml1">
+		<locomotion id="l1" type="target" manner="walk" target="0.7;0.4;5" facing="front"/>
+		<speech id="s1"><text>I like to <sync id="tm"/>walk and talk very much . </text></speech>
+		<gesture id="g1" stroke="s1:tm" type="beat" hand="both" handshape="cup" movementdirection="forward"/>
+		<face id="f2" start="s1:start" type="blink" amount="1"/>
+		<emit id="emitter1" start="f2:end">
+			<event id="event" />
+		</emit>
+	</bml>	
+	<bml id="bml2">
+		<speech id="s1">
+			<file ref="MojTekst.wav">
+			<text> Ovo je tekst za predmet  <sync id="tm" time="4"/> Virtualna Okruzenja. </text>
+			</file>
+		</speech>
+		<gesture id="g1" stroke="s1:tm" type="beat" hand="left" movementdirection="upward"/>
+		<head id="h1" start="tm:start" action="rotation" rotation="nod" amount="3"/>
+		<face if="f1" start="s1:start" type="eyebrow" direction="y" amount="0.9"/>
+	</bml>
+</ra:animation>
+</act>
