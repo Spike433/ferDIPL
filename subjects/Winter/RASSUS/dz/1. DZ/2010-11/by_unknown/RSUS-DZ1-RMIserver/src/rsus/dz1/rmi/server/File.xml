@@ -1,0 +1,34 @@
+<rsus.dz1.rmi.server.Container>
+  <knjigaList>
+    <knjiga>
+      <naslov>Pustinja</naslov>
+      <godinaIzdanja>2005</godinaIzdanja>
+      <izdavac>Algoritam</izdavac>
+      <autor>
+        <ime>Marko</ime>
+        <prezime>Marković</prezime>
+        <oib>43162758945</oib>
+      </autor>
+    </knjiga>
+    <knjiga>
+      <naslov>Subota</naslov>
+      <godinaIzdanja>2007</godinaIzdanja>
+      <izdavac>Profil</izdavac>
+      <autor>
+        <ime>Ivan</ime>
+        <prezime>Horvat</prezime>
+        <oib>75245698531</oib>
+      </autor>
+    </knjiga>
+    <knjiga>
+      <naslov>Windows</naslov>
+      <godinaIzdanja>2005</godinaIzdanja>
+      <izdavac>Algoritam</izdavac>
+      <autor>
+        <ime>Hrvoje</ime>
+        <prezime>Lujo</prezime>
+        <oib>45124786358</oib>
+      </autor>
+    </knjiga>
+  </knjigaList>
+</rsus.dz1.rmi.server.Container>

@@ -1,0 +1,48 @@
+Izvršni programi kompilirani su za 32-bitni GNU/Linux sustav.
+
+Pokretanje servera:
+
+$ ./server pjesma.wav
+
+Pokretanje klijenta:
+
+$ ./client      # odmah dohvaća datoteku koju server poslužuje
+$ ./client kill # gasi server i prestaje s radom
+
+===================================================================
+
+Izmjena postavki servera i klijenta vrši se modifikacijom
+datoteke Configuration.hs. Nakon izmjene konfiguracije server i
+klijent je potrebno ponovno kompilirati:
+
+$ ./compile.sh
+
+Za kompilaciju je potrebno imati Glasgow Haskell Compiler (GHC),
+kao i dodatan cabal-paket 'network'.
+
+$ sudo apt-get install ghc # ili haskell-platform ili nešto slično
+$ cabal update; cabal install network
+
+===================================================================
+
+Primjer izvođenja s kašnjenjem paketa od 0.05 sekundi i učestalošću
+gubitka paketa od 5%:
+
+~/rassus-lab1 λ ./server pjesma.wav |
+Server listening.                   | ~/rassus-lab1 λ ./client
+Greetings from 127.0.0.1:37748.     | Client online. File requested.
+Reading and sending entire file.    |
+Sending 5222 packets.               |
+Sending 2738 packets.               |
+Sending 1832 packets.               |
+Sending 1832 packets.               |
+Sending 720 packets.                |
+Sending 720 packets.                |
+Sending 99 packets.                 |
+Sending 99 packets.                 |
+Sending 1 packets.                  |
+Sending 1 packets.                  |
+Sending 1 packets.                  | Got all packets!
+Goodbye from 127.0.0.1:37748.       |
+Told to quit by 127.0.0.1:41507.    | ~/rassus-lab1 λ ./client kill
+~/rassus-lab1 λ                     | ~/rassus-lab1 λ

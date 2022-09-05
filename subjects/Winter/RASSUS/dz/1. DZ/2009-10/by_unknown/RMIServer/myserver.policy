@@ -1,0 +1,8 @@
+grant { // Allow everything 
+  
+// allows anyone to listen, accept, connect and resolve on un-privileged ports
+permission java.net.SocketPermission "localhost:1024-", "listen, accept, connect, resolve";
+
+// RMI permissions
+permission java.util.PropertyPermission "java.rmi.server.codebase", "read";
+};

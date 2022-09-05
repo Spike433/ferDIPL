@@ -1,0 +1,1 @@
+Ostvareno bodova: 4/7
