@@ -1,0 +1,1087 @@
+KOMPRO - ZI - Sažetak
+
+
+
+
+
+*****
+8. predavanje - BGP protokol
+*****
+
+
+###Hijerarhija interneta
+
+ISP = Internet Service Provider
+* Dvije vrste povezivanja:
+ a) peering - uzajamno povezivanje na istoj razini
+ b) transit - slanje prometa na višu ili nižu razinu
+* Tri razine:
+ 1) Tier 1 - najviša, ISP-ovi ne plaćaju međusobnu razmjenu prometa i ne rade tranzit prometa trećih strana
+ 2) Tier 2 - tranzit i peering
+ 3) Tier 3 - isključivo plaćaju tranzit drugim ISP-ovima
+
+
+###BGP
+
+* Protokol usmjeravanja (jedini EGP u internetu)
+* Koristi TCP, port 179
+* Komunikacija usmjeritelja između AS-ova
+* Razmjena usmjerivačkih informacija između ISP-ova, te ISP-ova i većih korisnika
+* Temelji se na algoritmu vektora puta
+* Ne ovisi o korištenom ISP-u
+* Dva moda rada:
+ a) unutarnji BGP (iBGP) -> između usmjeritelja, unutar AS-a
+ b) vanjski BGP (eBGP) -> između usmjeritelja različitih AS-ova
+
+BGP operacije
+* Dvije kategorije prometa:
+ a) lokalni - izvor i odredište nalaze se unutar istog AS-a
+ b) tranzitni - izvor i odredište nisu unutar istog AS-a
+=> Tranzitni usmjeritelji - imaju potpune tablice usmjeravanja, koje se mogu smanjiti CIDR-om i združivanjem
+
+AS
+=> Skup mreža i usmjeritelja temeljenih na istim načelima i pod zajedničkom upravom i politikom usmjeravanja prema van (prema ostalim AS-ovima)
+* Koristi jedinstveni IGP protokol usmjeravanja
+* Usmjeritelj na rubu AS-a (koristi eBGP) - peer -> izmjenjuje informacije o putevima s drugim AS-ovima (NLRI)
+* Jedinstveni broj AS-a dodjeljuje IANA
+* Jedan AS se najčešće nalazi pod administracijom i u vlasništvu jednog operatera
+Vrste AS-ova:
+ a) Stub AS - povezan samo s jednim AS-om, prenosi samo lokalni promet
+ b) Multihomed AS - povezan s više AS-ova, prenosi samo lokalni promet
+ c) Transit AS - povezan s više AS-ova, prenosi lokalni i tranzitni promet
+
+Principi BGP-a
+* Pronalazak susjednih usmjeritelja vrši se ručno (administrator mreže)
+* Kada usmjeritelji uspostave TCP vezu, razmijene cijele tablice usmjeravanja
+* Tablica usmjeravanja sadrži informaciju o putu do AS-a u kojem je odredišna mreža
+
+
+BGP put
+=> Slijed AS-ova koje treba proći do odredišta
+* Mogući različiti putevi, različite politike usmjeravanja
+* Svaki put obilježava skup atributa (parametara) koji definiraju politiku usmjeravanja
+* Put se odabire u ovisnosti o:
+ - parametrima puta
+ - dostupnosti puta
+ - dodatnim pravilima o prihvaćanju paketa (političkim, sigurnosnim)
+ - pravilima o propuštanju paketa
+ - ugovoru između usmjeritelja
+ - atributima
+* Objavljuju se porukom UPDATE
+
+BGP RIB
+=> Baza puteva, sadrži ju svaki usmjeritelj
+* Sadrži tri vrste popisa:
+ 1) Adj-RIBs-In - popis nedorađenih puteva, koji su dobiveni od susjednih usmjeritelja
+ 2) Loc-RIB - popis puteva s lokalnim informacijama o usmjeravanju, koje su dobivene primjenom vlastitih pravila usmjeravanja i procesa odluke nad ADJ-RIBs-In
+ 3) Adj-RIBs-Out - popis puteva koji se šalje susjednim usmjeriteljima porukom UPDATE
+
+BGP poruke
+* Veličina je od 19 (samo zaglavlje), pa do 4096 okteta
+* Polja: marker, length, type
+* Vrste:
+ 1) OPEN - uspostava sjednice između susjednih usmjeritelja i izmjena početnih postavki
+ 2) UPDATE - razmjena informacija o putevima
+ 3) KEEPALIVE - održavanje sjednice, potvrda nakon OPEN
+ 4) NOTIFICATION - poruka o pogrešci, zatvaranje sjednice
+
+BGP atributi puta
+* Unutar poruke UPDATE
+* Omogućavaju usmjeriteljima primjenu vlastite politike usmjeravanja
+* Mogu biti:
+ a) Dobro poznati obvezni (ORIGIN, AS path, Next hop)
+ b) Dobro poznati neobvezni (local preference, Atomic Aggregate)
+ c) Izborni lokalni (Multi-Exit Discriminator (MED))
+ d) Izborni tranzitni (Aggregator)
+* Svaki put uz dobro poznate atribute može imati i izborne
+# Atribut ORIGIN
+* Definira porijeklo puta
+* Generira ga usmjeritelj od kojeg put potječe.
+ - IGP-0 = put potječe iz istog AS u kojem je usmjeritelj
+ - EGP-1 = put potječe iz drugog AS-a
+ - Incomplete-2 = put je dobiven na nepoznat način
+# Atribut AS path
+* Definira put - listu AS-ova koje treba proći na putu do odredišta
+* Dobro za višestruke puteve (različiti atributi za isto odredište)
+* Filtriranje (zabrana prolaska kroz neki AS)
+* Izbjegavanje petlji
+* Preferiranje puta
+# Atribut Next Hop
+* Definira IP adresu usmjeritelja na koji prvo treba usmjeriti paket
+* Pri ažuriranju puta, atribut se modificira samo ako dolazi od peer-a eBGP vezom.
+# Atribut Local Preference
+* Određuje politiku usmjeravanja odlaznog prometa
+* Atribut se izmjenjuje između lokalnih usmjeritelja unutar istog AS-a
+* Veća vrijednost atributa => veći prioritet puta
+# Atribut Atomic Aggregate
+* Združeni put do odredišta, u svrhu reduciranja broja puteva
+* Vrijednost atributa je lista AS-ova
+* Združeni put mora sadržavati prvu adresu koja mu pripada
+# Atribut MED
+* Za odabir jednog od više puteva prema nekom AS-u
+* Manja vrijednost atributa MED => veći prioritet puta
+* Usmjeritelji daju savjete svojim susjedima kojim putem poslati pakete prema njima
+# Atribut Aggregator
+* Usmjeritelj daje do znanja da je združio puteve i zapisuje svoj AS broj i IP adresu
+* Združiti se mogu putevi koji imaju iste atribute
+* Agregator je uključen u poruke nastale združivanjem puta
+
+Algoritam usmjeravanja
+* Odlučuje o najboljem putu do odredišta na temelju procesa odluke
+* Nema definiranog pravila, primjenjuje se politika lokalnog administratora sadržana u PIB-u (Policy Information Base)
+* Promatraju se neobrađeni putevi iz RIB-a
+* Odabrani put se zatim zapisuje u tablicu usmjeravanja polazišnog usmjeritelja i izmjenjuje se s ostalim usmjeriteljima porukom update
+
+Ažuriranje tablice usmjeravanja
+* Razmjenom BGP updates poruka između BGP usmjeritelja.
+* Oglašavaju se novi putevi, razmjenjuju se informacije o putevima (NLRI)
+* Uz oznaku puta navodi se sljedeći skok
+* Ako dođe do prekida u mreži, put se briše
+
+
+
+
+
+*****
+9. predavanje - Signalizacijski protokoli u Internetu
+*****
+
+
+Signalizacija u mreži
+* Za potrebe veze korisničkog informacijskog toka potreban je upravljački informacijski tok
+* Pravila izmjene upravljačke informacije su opisana signalizacijskim protokolima:
+ a) s komutacijom kanala
+ - sustav signalizacije zajedničkim kanalom SS7 (javna fiksna nepokretna mreža - PSTN, javna pokretna mreža - GSM) -> uglavnom za prijenos govora
+ b) s komutacijom paketa
+ - Internetska mreža IP
+  b1) primjenom signalizacijskog protokola u Internetu (npr. SIP)
+  b2) primjenom postojećeg signalizacijskog protokola internetom (npr. SIGTRAN)
+
+
+b1)
+###SIP
+
+SIP = Session Initiation Protocol
+=> Protokol aplikacijskog sloja koji služi za uspostavu, promjenu i raskid sjednice s jednim ili više sudionika
+* Ideja: pozvati korisnika u sjednicu putem jedinstvene adrese (neovisno o trenutnom položaju)
+* Primjeri sjednica:
+ - pozivi u internetskoj telefoniji
+ - distribucija višemedijskog sadržaja
+ - višemedijska konferencija
+
+SIP arhitektura
+* SIP koristi posredničke poslužitelje (proxy) za usmjeravanje prema trenutnom položaju pozvane osobe
+Entiteti:
+ 1) Korisnički agent - UA
+ 2) Posrednički poslužitelj:
+ - prima poruke od UA ili drugog posredničkog poslužitelja i prosljeđuje ih
+na odredište
+ 3) Poslužitelj za preusmjeravanje:
+ - prihvaća zahtjeve za uspostavom sjednice
+ - vraća adresu odgovarajućeg poslužitelja
+ 4) Poslužitelj za registraciju (register):
+ - prihvaća zahtjeve za registraciju
+ - registrira korisnike unutar domene
+ - održava podatke o korisnicima i njihovim trenutnim lokacijama unutar domene
+ 5) Lokacijski poslužitelj
+*#* Slajd 14.
+
+SIP operacije
+
+#1. Adresiranje
+ - koristi URL
+ - podržava internetske i PSTN adrese
+ - format: ime@domena
+
+#2. Lociranje poslužitelja
+ - klijent šalje zahtjev na:
+ a) lokalni posrednički poslužitelj
+ b) poslužitelj s odgovarajućom IP adresom
+ - klijent određuje IP adresu (preko DNS poslužitelja), port (ako ne piše, onda je 5060) i korišteni protokol (UDP ili TCP)
+ - rezultat može biti privremeno pohranjen
+
+#3. Slanje zahtjeva
+ - kad klijent razluči adresu SIP poslužitelja, šalje jedan ili više zahtjeva njemu, te dobiva odgovore
+ -> SIP zahtjev - primjer oblika:
+ INVITE sip:ana@tel.fer.hr SIP/2.0
+* Format poruke SIP
+ - Tekstualni
+ - Osnovna podjela:
+ a) zahtjevi (metode)
+ b) odgovori (statusni kod)
+ - SIP je neovisan o transportnom protokolu i vrsti sjednice
+ - Za pozivanje korisnika u sjednicu, SIP koristi SDP protokol koji sadrži propisani skup parametara za opis sjednice (SDP opis se umeće u SIP poruku)
+* Slijed operacija prilikom uspostave sjednice:
+ 1) klijent šalje inicijalni INVITE zahtjev
+ 2) poslužitelj vraća odgovor
+ 3) klijent prima odgovor na inicijalni zahtjev
+ 4) klijent ili poslužitelj generiraju daljnje zahtjeve
+ 5) primanje daljnjih zahtjeva
+ 6) BYE - kraj sjednice
+ X) CANCEL - može se dogoditi bilo kada tijekom sjednice
+*#* Slajd 24.
+
+#4. SIP zahtjevi
+* INVITE:
+ - poziv na sjednicu
+ - opis sjednice je uključen
+ - važna polja:
+ 1) Call-ID = jedinstveni broj sjednice
+ 2) Cseq = brojač - smanjuje se slanjem svakog zahtjeva sa istim Call-ID
+ 3) To i From = zajedno sa Call-ID definiraju jedinstvenu sjednicu
+* REGISTER:
+ - UA obavještava mrežu o svojoj lokaciji, tj. trenutnoj IP adresi
+ - registracija je obvezna za dolazne pozive, za odlazne ne
+ - Cseq se smanjuje svakim slanjem REGISTER-a
+ - zahtjev se prosljeđuje do nadležnog poslužitelja za registraciju u domeni
+* BYE:
+ - raskid može inicirati neki od UA koji sudjeluje u sjednici (ne netko treći, sa strane)
+ - zahtjev s kraja na kraj (posrednici nemaju utjecaja)
+* ACK:
+ - potvrda, konačni odgovor na INVITE
+ - zahtjev od točke do točke
+ - slanjem ACK Cseq se ne smanjuje
+ - poslužitelj uspoređuje Cseq u ACK s Cseq u odgovarajućem INVITE
+* CANCEL:
+ - zahtjev od točke do točke (prekid može biti iniciran od strane nekog UA ili posredničkog poslužitelja)
+ - prosljeđuje se istim putem kao i INVITE
+* OPTIONS:
+ - provjera mogućnosti primatelja
+** Polja u zaglavlju SIP:
+ 1) općenita
+ 2) vezana uz poruku zahtjeva
+ 3) vezana uz poruku odgovora
+ 4) vezana uz entitet u mreži
+ - Svaki posrednički poslužitelj (proxy) dodaje VIA zaglavlje sa svojom adresom, kako bi osigurao da će odgovor ići istim putem
+
+#5. SIP odgovori
+* 1xy - informativni, o statusu poziva
+ - s kraja na kraj, osim 100 trying (nema tijelo i ne prosljeđuje se)
+ - 180 ringing - odgovor da je INVITE primljen, ne šalje se ako pozvani odmah odgovori
+* 2xy - uspješno izvršenje zahtjeva
+ - 200 OK:
+ a) odgovor na poziv u sjednicu -> u tijelu poruke šalje parametre pozvanog korisnika
+ b) odgovor na zahtjev (na INVITE, REGISTER, OPTIONS)
+* 3xy - šalje ih posrednički usmjeritelj, ili usmjeritelj za preusmjeravanje, kao odgovor na zahtjev za uspostavom sjednice (npr. 301 Moved Permanently)
+*#* Slajd 43., 44., 45.
+* 4xy - pogreška na klijentu (npr. 404 Not Found)
+* 5xy - greška na poslužitelju (npr. 500 Internal Server Error)
+* 6xy - globalna greška (npr. Decline)
+
+Mehanizmi sigurnosti
+a) Šifriranje s kraja na kraj
+ - posrednički poslužitelj može na INVITE odgovoriti sa 407 Proxy Authentication Required => klijent odgovara sa re-INVITE, sa Proxy-Authorization zaglavljem
+b) Šifriranje od skoka do skoka
+ - SIP korisnik može na INVITE odgovoriti sa 401 Unauthorized => klijent odgovara sa re-INVITE sa Authorization zaglavljem
+
+
+b2)
+###Prijenos signalizacije mrežom IP
+
+Protokoli:
+
+#SIGTRAN
+* Skup protokola koji omogućava prijenos signalizacije SS7 preko IP mreže
+* Tri komponente:
+ 1) Protokol za adaptaciju - podržava specifične SS7 protokole
+ 2) SCTP - podržava pouzdane prijenosne funkcije za prijenos signalizacije
+ 3) Internetski protokol IP
+* SCTP:
+ - spojno orijentirani pouzdani protokol
+ - prednosti nad TCP-om:
+ a) brzo otkrivanje grešaka uz kontrolu zagušenja
+ b) podržava veliki broj sjednica
+* SIGTRAN protokolni složaj:
+*#* Slajd 55.
+
+#SGW
+* Vrši konverziju protokola na transportnom sloju za prijenos signalizacije između SS7 i mreže IP
+* Izvedbeno rješenje - SOFTSWITCH - djelotvoran prijenos govora preko IP
+* Razdvaja upravljanje pozivom (upravljački sloj - SIP, SIGTRAN) od funkcije prijenosa podataka (sloj poveznice - MGW)
+
+#MGCP
+* Signalizacijski protokoli za upravljanje čvorovima za prijenos podataka u paketskim mrežama (IP) i mrežama s komutacijom kanala (PSTN)
+* Prijenos PSTN poziva preko IP mreže
+* RTP/RTCP protokol, UDP na transportnom sloju
+* 3 standarda:
+ 1) MGCP
+ 2) Megaco
+ 3) H.248
+
+#BICC
+* Proširenje signalizacije SS7 ISUP za uspostavu poziva u paketskim mrežama
+
+#IAX
+* Za višemedijske sjednice i strujanje medija putem IP mreže
+ - VOIP, UDP
+
+#TRIP
+* Za usmjeravanje telefonskih poziva IP mrežom
+ - BGPv4, TCP
+
+
+
+
+
+*****
+10. predavanje - Podatkovna komunikacija i protokoli u pokretnoj mreži
+*****
+
+
+Pokretna mreža
+* Javna mreža u kojoj se pristup zasniva na radijskoj komunikaciji koja omogućava pokretljivost
+* Dva dijela:
+ 1) Jezgrena mreža
+ 2) Pristupna mreža
+
+
+###GSM mreža
+
+1) NSS jezgrena - sastoji se od:
+ - MSC pokretni dio + VLR koji sadrži podatke o domaćim pretplatnicima i stranim pretplatnicima koji su u LA (lokacijsko područje = skup ćelija koje pripadaju jednom MSC)
+ - GMSC - prilazni dio
+ - HLR - podaci o domaćim pretplatnicima, gdje god oni bili
+ - AUC - provjera autentičnosti pretplatnika
+ - EIR - provjera vlasnika MS-a (pokretne postaje)
+2) BSS pristupna - sastoji se od:
+ - BTS - primopredajni dio
+ - BSC - upravljački dio
+3) MS - pokretna postaja
+Slika
+*#* Slajd 12.
+
+GSM protokoli po slojevima
+#1) Fizički sloj
+ - 992 fizička kanala raspoređena na 124 frekvencije po 8 vremenskih odsječaka
+ - MS prihvaća najjači kontrolni kanal nakon što skenira sve frekvencije
+#2) Sloj veze
+ - protokol LAPDm -> rješenje za radio kanal, fiksne je duljine
+#3) Sloj poruka - protokoli:
+* Podslojevi:
+ - RR - podsloj za upravljanje radijskim resursima, služi za prijenos signalizacije između MS i BSS
+ - MM - podsloj za upravljanje pokretljivošću, služi za vezu između MS i MSC
+ - CM - podsloj za upravljanje vezom, služi za SMS i dodatne usluge između
+MS i MSC
+* Dijelovi:
+ - BSS AP - aplikacijski dio u SS7 za GSM
+ - SCCP - kontrolni dio za signalizaciju
+ - MTP - dio za prijenos poruka
+* BSS procesi:
+ - BSS MAP - procedure između BSS i MSC, koje zahtijevaju obradu informacija vezanih uz poziv i upravljanje radijskim resursima
+ - DTAP - transparentan prijenos informacija između MS i MSC za upravljanje pokretljivošću i vezom
+Kod GSM-a se razdvajaju korisnička komunikacija (ide fizičkim kanalima) i upravljačka komunikacija (logičkim kanalima)
+GSM brzina - 14.4 kbit/s
+
+
+###GPRS mreža
+
+* Proširenje GSM mreže ostvareno dodavanjem čvorova
+Promjene:
+ - uvedena komutacija paketa
+ - 8 kanala iste frekvencije po jednom korisniku
+ - uveden PCU (paketska kontrolna jedinica)
+ - veća brzina - GPRS - 115.2 kbit/s
+ - naplata po prometu
+Slika
+*#* Slajd 23.
+
+Potporni čvorovi:
+#1) SGSN - uslužni
+* Funkcije:
+ - usmjeravanje paketa RA (područje usmjeravanja) <-> MS
+ - kriptografska zaštita i provjera autentičnosti
+#2) GGSN - prilazni
+* Funkcije:
+ - pridruživanje korisnika pravom SGSN-u
+ - uspostavljanje komunikacije prema vanjskim mrežama
+#*) Zajedničke funkcije:
+ - upravljanje sjednicom, pokretljivošću i logičkom vezom sa MS
+ - prikupljanje podataka za naplatu
+
+Kontrolna/signalizacijska ravnina
+* Prenosi kontrolnu/upravljačku informaciju kojom se omogućuje paketska komunikacija
+*#* Slajd 26.
+* MAC - kontrola pristupa korisnika
+* LLC - teku paketi
+* BSSGP - razmjenjuju se informacije o usmjeravanju i kvaliteti usluge (QoS)
+
+Paketska komunikacija u pokretu
+* Različita od kanalske, jer treba upravljati sjednicom, tj. sudionicima, a ne samo vezom
+=> To je ključna razlika u odnosu na GSM mrežu!
+* To omogućuju:
+ - zapis o kretanju, kojim se MS pridružuje SGSN-u, u čijem je području -> MM context
+ - zapis o paketskom protokolu, koji opisuje karakteristike veze -> PDP context
+ - podatak o fizikalnom kanalu kojim se prenose paketi na radijskom sučelju -> TBS
+
+Stanja MS-a
+*#* Slajd 29.
+ - IDLE - MS je uključen, ali nije u GPRS -u
+ - READY- omogućena razmjena paketa; ažuriranje ćelije pri kretanju
+ - STANDBY - u GPRS-u je MS, ali ne izmjenjuje pakete; ažurira se samo RA pri kretanju
+
+Upravljanje pokretljivošću - MM
+* Dijelovi:
+ 1) Uključivanje - pridruživanje sustavu
+ 2) Isključivanje - izlazak iz sustava
+ 3) Ažuriranje lokacije - ažuriranje promjene RA ili ćelije
+ - RA ima jednu ili više ćelija, a obuhvaća cijeli LA ili jedan njegov dio
+* Postupak uključivanja MS-a:
+ 1) Informiranje mreže o zahtjevu uključivanja MS-a
+ 2) Provjera identiteta MS-a (EIR) i iniciranje rada za prijenos podataka
+ 3) Ako SGSN nema podatke o pretplatniku, učitavanje istih iz HLR
+ 4) Ažuriranje MSC/VLR
+ 5) Uspostava signala MS <-> SGSN
+* Protokoli koji sudjeluju: SM, MM, LLC, RLC, MAC
+ - MM context - zapis o kretanju MS-a, sadrži informacije o lokaciji MS-a
+
+1) a) Uključivanje MS-a u području novog SGSN-a:
+ - MS šalje zahtjev za uključivanjem novom SGSN-u, koji ga prosljeđuje starom
+ - provjerava se identitet i autentičnost, te se zapisuje nova lokacija u HLR
+ - briše se stara lokacija, podaci o korisniku se šalju novom SGSN-u
+ - novi SGSN javlja MS-u da je prihvatio zahtjev
+*#* Slajd 33.
+
+3) a) Ažuriranje lokacije kod promjene SGSN-a (ako se mijenja samo RA, a ne i SGSN, onda ide samo prvi i zadnji korak)
+ - MS šalje zahtjev novom SGSN-u za ažuriranje lokacije
+ - novi SGSN zahtijeva od starog SGSN context
+ - stari SGSN mora proslijediti novom neisporučene podatke
+ - podaci o pretplatniku se prebacuju u novi SGSN, GGSN se obavještava
+ - ažurira se lokacija u HLR-u
+ - MS dobiva potvrdu o prihvaćanju nove lokacije
+Slika
+*#* Slajd 34.
+* SGSN context = MM context + PDP context (zapis o karakteristikama veze)
+-> Ako se mijenja samo ćelije:
+Slika
+*#* Slajd 35.
+
+Komunikacija u GPSRS-u (MS <-> SGSN)
+* MS mora biti u READY stanju (ako je u STANDBY, SGSN mu može slati paging signal kako bi prešao u READY)
+a) MS šalje pakete u mrežu:
+ - MS zahtijeva kanal BTS-BSC
+ - MS dobiva kanal
+ - MS šalje pakete prema SGSN
+b) MS prima pakete iz mreže:
+ - SGSN šalje zahtjev do BSC
+ - MS dobiva kanal
+ - SGSN šalje pakete prema MS
+
+Zapis o paketskom protokolu (PDP Context)
+* Da bi se ostvarila komunikacija, kreira se PDP context na relaciji MS-GGSN (sadrže ga MS, BSS-PCU, HLR, SGSN, GGSN)
+* Definira komunikaciju MS sa GGSN i vanjskim mrežama
+=> Zapis o karakteristikama veze: vrsta mreže, adresa pristupne točke, protokol, QoS, ...
+* Aktivira se uključenjem MS-a ili komandom prije početka komunikacije
+
+Podatak o fizikalnom kanalu - TBF
+* Prijenos na radijskom sučelju
+*#* Slajd 40.
+ - IDLE - Packet Idle - nema TBF-a
+ - READY - Packet Idle <=> Packet Transfer - TBF sa 1 ili više PDCH
+ - STANDBY - Packet Idle
+* Dodjeljuje PCU za prijenos paketa od/prema MS
+* MS pri dodjeli TBF dobiva informacije o PDCH, koje koristi i TFI (jedinstveni broj TBF-a)
+* MS može imati TBF u jednom ili oba smjera
+
+Prijenos paketa na radijskom sučelju (MS <-> BSS PCU)
+a) MS -> BSS PCU
+ - MS u stanju READY inicira prijenos, šalje zahtjev za dodjelom paketskog kanala prema BSS PCU u dodijeljenom fizikalnom kanalu
+ - PCU odgovara porukom o dodjeli UZLAZNE paketske veze do MS, koja sadrži popis fizikalnih kanala i TFI (tako je dodijeljen TBF)
+b) BSS PCU -> MS
+ - SGSN šalje pozivni zahtjev do PCU, koji poziva MS u fizikalnom kanalu koji MS osluškuje u stanju STANDBY
+ - MS odgovara pozitivnim odgovorom, prelazi u READY, a ta poruka prelazi preko BSS do SGSN
+ - PCU odgovara porukom dodjele SILAZNOG paketskog kanala, koja sadrži popis fizikalnih kanala (PDCH) i TFI (tako MS-u dodjeljuje TBF)
+
+Korisnička/transmisijska ravnina
+* Prenose se podaci između MS i Interneta
+Slika
+*#* Slajd 43.
+
+Fizikalni kanal (sloj 1)
+* PDCH - jedan vremenski odsječak fizikalnog kanala
+ - više PDCH može koristiti jedan korisnik - jedan PDCH na više korisnika
+ - broj PDCH u ćeliji je fiksan, ili se mijenja dinamički
+* Uz fizikalne kanale postoje i logički kanali za kontrolne funkcije, koji se temelje na multiokviru od 52 okvira
+
+Protokoli za kontrolu i pristup mediju (sloj 2)
+* MAC - raspoređivanje zahtjeva za kanal
+* RLC - kontrola pristupa kanalu
+* LLC - logička veza MS <-> SGSN
+Operacije kad MS šalje podatke:
+ 1) Protokolska jedinica podataka logičke veze (LLPDU) veličine je 1500 okteta
+ 2) LLPDU dolazi do RLC u segmentima veličine 20-50 okteta
+ 3) MAC formira radio blokove veličine 456 bita (u četiri snopa)
+ 
+Protokol SNDCP (sloj 3)
+* Prilagođava protokol IP radu u GPRS-u
+* Prenosi podatke MS <-> SGSN
+* Multipleksira više konekcija mrežnog sloja u jednu logičku vezu LLC-a
+* Komprimira i dekomprimira podatke i zaglavlja višeg sloja
+* Fragmentira IP pakete koji se prenose LLC okvirima, sastavlja ih opet u IP pakete na drugoj strani
+ 
+Prijenos podataka MS <-> SGSN - SAŽETAK
+* IP paketi se komprimiraju i fragmentiraju u LLC okvire na izvorišnoj strani, dijele u MAC/RLC blokove, šalju preko BSS do SGSN (i obratno), na odredištu se opet sastavljaju u IP pakete
+ 
+Protokol GTP
+* Kreira, modificira i briše tunel za korisničke podatke i signalizacijske informacije između SGSN i GGSN
+* IP paketima dodaje GTP zaglavlje
+* Rabi UDP
+*#* Slajd 49.
+ 
+Postupak pristupa Internetu:
+ 1) MS zahtijeva aktiviranje PDP konteksta
+ 2) SGSN provjerava zahtjev na temelju informacija u HLR-u
+ 3) SGSN traži od DNS-a IP adresu GGSN-a
+ 4) Uspostavlja se logička veza (tunel) SGSN <-> GGSN
+ 5) GGSN dodjeljuje MS-u dinamički javnu IP adresu
+
+
+###EDGE mreža
+
+*#* Slajd 53.
+
+Karakteristike:
+* Zahtijeva veću promjenu radijskog dijela pristupne veze (sustav baznih postaja EDGE-RAN)
+* Promjena modulacije: GMSK -> 8PSK 
+* 8 kanala x 48 kbit/s = 
+ - Brzina = 384 kbit/s
+* Nedostatak je što se ova brzina ne može postići u cijelom području pokrivanja ćelije
+
+
+###Komunikacija porukama
+
+*#* Slajd 57.
+
+SMS
+* SMS-C - centar za uslugu kratkih poruka
+* Slanje/primanje poruka prema/od MS
+* Zadržava poruku dok ne dobije potvrdu o primitku ili dok ne istekne vrijeme valjanosti poruke
+* 160 znakova, moguće ulančavanje
+* EMS ih proširuje sa tekstom, kratkim melodijama i točkastim slikama
+
+MMS
+* Prijenos se temelji na WAP protokolima
+* Zahtijeva veće brzine prijenosa
+* Formatirani tekst, crteži, animacija, slika u boji, audio i video sadržaji
+
+
+
+
+
+*****
+11. predavanje - UMTS mreža
+*****
+
+
+* Brzina:
+ - do 144 kbit/s svagdje
+ - do 384 kbit/s na otvorenom
+ - do 2 Mbit/s u zatvorenom
+
+* Uz pokretljivost terminala, riješena je i osobna pokretljivost, te pokretljivost, prenosivost i transparentnost usluga
+
+UMTS usluge - zahtjevi
+* Fleksibilnost - kretanje iz jedne mreže u drugu
+* Pristup uslugama bez obzira na pristupnu mrežu u kojoj se korisnik nalazi
+* Prilagođavanje usluge s obzirom na korišteni terminal
+* Dostupnost usluge s obzirom na lokaciju
+* Upravljanje profilom usluge bez obzira na pristupnu mrežu i lokaciju
+
+Elementi UMTS arhitekture
+1) Domena - skup funkcija, međusobno odvojene referentnim točkama
+2) Stratum - funkcijska komunikacija između domena
+
+1) Domene:
+*#* Slajd 10.
+* USIM - modul za identifikaciju korisnika
+ - izveden pametnom karticom
+ - rabi se za sigurnost usluga koje su na raspolaganju korisniku i za osobno profiliranje
+* Access Network Domain - pristupna mreža - zemaljski UMTS radio pristup (UTRA)
+ - zasnovan na W-CDMA
+* Serving Network Domain - za posluživanje korisnika na korisničkoj pristupnoj točki
+ - mijenja lokacijsku informaciju kako se korisnik kreće, usmjerava poziv/informaciju prema korisniku
+* Home Network Domain - funkcionalnost povezana sa stalnom lokacijom korisnika neovisno o korisničkoj pristupnoj točki
+* Transit Network Domain - ostvaruje komunikacijski put između Serving Network Domain i udaljenog korisnika kada je on u drugoj mreži
+
+Arhitektura UMTS
+*#* Slajd 11.
+
+
+###UMTS radijska pristupna mreža
+
+UMTS zemaljski radijski pristup - UTRA
+* Zasnovan na W-CDMA (širokopojasni višestruki pristup s kodnom podjelom)
+* Veći kapacitet i bolja pokrivenost
+* Mogućnost varijabilne brzine prijenosa
+* Prikladan i za paketski i kanalni prijenos
+* Višestruke istodobne usluge u jednom terminalu
+* Hijerarhijska struktura ćelija
+* Uvođenje IP u radijsku pristupnu mrežu
+
+UTRAN - zemaljska radijska pristupna mreža
+* Funkcije:
+ - sustavna kontrola pristupa
+ - sigurnost i privatnost
+ - upravljanje i kontrola radijskih resursa
+ - kontrola radijskog prijenosa i veze između korisničke opreme i mreže (protokoli kontrolne ravnine)
+ - prijenos korisničkih podataka između korisničke opreme i mreže (protokoli korisničke ravnine)
+
+Radijski mrežni podsustav - RNS
+* Osnovni dio UTRAN-a
+* Dijelovi:
+ 1) Upravljač radijske mreže RNC
+  - uslužni, kontrolni i prihvatni
+  - preuzima dio funkcija upravljanja pokretljivošću od jezgrene mreže
+ 2) Čvor B sa radijskim primopredajnim dijelom
+  - pokriva 3-6 ćelija
+* Svaki RNS poslužuje svoj skup ćelija
+
+2) Čvor B
+* Pretvorba podatkovnog toka između Uu i Iub sučelja
+* Upravljanje radijskim resursima
+* Modulacija (podržava FDD, TDD, CDMA)
+* Fizikalni i transportni kanali
+* Korekcija grešaka
+* Povezivanje poziva s UE
+* Sakupljanje prometnih podataka
+*#* Slajd 18.
+
+Razlozi za W-CDMA
+* Prednosti:
+ - sve osim zadnje značajke od UTRA
+ - širina frekvencijskog pojasa = 5 MHz
+ - prošireni frekvencijski spektar - raspršeni spektar
+   - manja osjetljivost na uskopojasne interferencije i prigušenja
+   - nema fiksnog ograničenja kapaciteta (broja istovremenih korisnika)
+* Nedostaci:
+ - povećanje interferencije od drugih korisnika
+
+
+###Sučelja i protokoli jezgrene mreže UMTS
+
+Protokoli korisničke ravnine UMTS
+*#* Slajd 26.
+
+Protokol PDCP
+* Funkcionalnost slična SNDCP i LLC protokolima iz GPRS-a
+* Prijenos podataka (IP paketa) između korisničkog terminala i radijske pristupne mreže
+* Komprimira i dekomprimira korisničke podatke i zaglavlja višeg sloja
+* Segmentira IP pakete u MAC/RLC blokove prikladne za radijski prijenos preko zračnog sučelja
+
+Gn i Gp sučelja
+* Gn - između SGSN-a i GGSN-a, te SGSN-ova iste zemaljske javne pokretne mreže (PLMN)
+* Gp - između SGSN-ova različitih PLMN-ova
+
+MAP sučelja
+* Gc - GGSN-HLR (Tuneliranje preko SGSN)
+ - informacije o usmjeravanju za komutaciju paketa
+* Gr - SGSN-HLR
+ - lokacija korisnika
+* Gd - SGSN-SMS prilaz
+* Gf - SGSN-EIR
+
+Protokoli paketskog dijela MAP sučelja
+*#* Slajd 31.
+* MAP - Message Application Part
+* TCAP - SS7 Transaction Capabilities Application Part
+* SCCP - Signaling Connection Control Part
+* MTP3 i MTP2 - Message Transfer Part
+
+Protokoli između kanalskog i paketskog dijela
+*#* Slajd 33.
+* BSSAP - BSS Application Part
+* Gs - MSC-SGSN sučelje
+ - proširenje BSSAP
+ - reduciranje upravljačke informacije o lokaciji korisnika i HLR signalizacije
+ 
+Pristup internetu iz UMTS mreže
+* U mreži UMTS IP protokol se uvodi u pristupnu mrežu, dakle dolazi još bliže korisniku
+ 
+IP adresiranje
+* Treba podijeliti jedinstvene IP adrese GPRS mrežnoj infrastrukturi radi spajanja na internet u reamingu
+* U roamingu treba povezati SGSN posjećene mreže sa GGSN domaće mreže
+* Vrste adresiranja:
+ a) Adresiranje mrežne infrastrukture
+ b) Adresiranje pokretnih terminala
+* Vrste adresa:
+ a) Privatne
+  - ograničeni broj adresa
+  - nemogućnost adresiranja preko Interneta
+  - nemogućnost dobivanja jedinstvene adrese
+ b) Javne
+  - moguće adresiranje preko Interneta
+  - moguća jedinstvena adresa
+* MS ima privatnu adresu, a entiteti mrežne infrastrukture javnu
+* NAT - mehanizam prevođenja adresa (privatna-javna)
+ - MS-u se dodjeljuje javna adresa koja je raspoloživa tijekom trajanja veze s vanjskom mrežom
+ 
+Roaming (prelaženje)
+* SGSN iz jedne mreže se povezuje sa GGSN iz druge preko inter-PLMN mrežne okosnice
+* Aktivnosti prilikom odlaska korisnika u posjećenu mrežu:
+ 1) Uključivanje MS/UE
+ 2) Aktiviranje PDP zapisa
+ 3) razmjena DNS podataka
+ 4) uključivanje graničnog prilaza (BG) radi sigurnosti
+* GPRS operateri mogu biti povezani:
+ a) Direktnom vezom
+  - tuneliranjem kroz javnu IP mrežu ili
+  - iznajmljenim vodom
+ b) GRX (GPRS Roaming eXchange) čvorovima
+Sporazum o prelaženju:
+* Svrha: 
+ - da pretplatnicima nekog operatora omogući korištenje usluga u svojoj i u drugim mrežama
+ - naplata usluga domaćim i stranim korisnicima
+* Ako je zadovoljen sporazum, strani korisnik može koristiti:
+ 1) Radio resurse u VPLMN (Visitor PLMN)
+ 2) GGSN u HPLMN (Home PLMN)
+
+Registracija s GLR u posjećenoj mreži
+* GLR - lokacijska baza podataka koja sadrži privremeni zapis podataka o korisniku i njegovu trenutnu lokaciju
+ - radi izbjegavanja previše signalizacije, posebno u međunarodnom prometu
+*#* Slajd 48.
+* Prva registracija - 1-2-3-4-5-6
+ - kao trenutna lokacija u HLR se zapisuje lokacija GLR, a u GLR lokacija VLR
+*#* Slajd 49.
+* Promjena lokacije - 1-2-3-4-5-6
+ - u GLR-u se registrira adresa novog VLR, a deregistrira adresa starog VLR
+
+HSS - Poslužitelj pretplatničkih podataka
+* Glavna baza podataka o korisnicima
+* Identifikacija korisnika, numeracija, adresiranje
+* Kontrola pristupa mreži
+* Informacije o autentifikaciji, autorizaciji i lokaciji korisnika
+* Repozitorij korisničkih profila
+* Upravljanje pokretljivošću
+* Podrška sigurnosti, za uspostavu poziva i sjednice, te pružanja usluge
+
+
+
+
+
+*****
+12. predavanje - Razvoj pristupne mreže UMTS
+*****
+
+
+###3.5G
+
+HSPA - Tehnologija brzog paketskog pristupa
+* Povećanje brzine prijenosa
+* Unapređuje radijsku pristupnu mrežu
+ a) HSDPA - downlink, u dolaznom smjeru; brzina do 14.4 Mbit/s, u praksi do 7.2 Mbit/s
+ b) HSUPA - uplink, u odlaznom smjeru
+
+a) HSDPA
+ - nadogradnja WCDMA tehnologije
+ - ne uvode se novi čvorovi u mrežu, već se RNS softverski i hardverski nadograđuje (RNC i čvor B), te veći broj fizičkih kanala
+*#* Slajd 6.
+ - uvodi se adaptivna modulacija i kodiranje (AMC) -> koristi se povratna informacija od korisničkog terminala kako bi se utvrdila najbolja modulacijska tehnika i kodirajuća shema za zadane uvjete u kanalu
+ - bazna stanica dinamički mijenja kapacitete dodijeljene korisnicima - korisnici u područjima s boljim uvjetima dobivaju veći kapacitet prijenosne mreže i veće brzine prijenosa (tako se postiže efikasnije zauzeće kanala)
+ - čvor B preuzima neke funkcije RNC-a
+ - uvode se novi kanali (zauzeće kanala ovisi o duljini intervala TTI, koji je drugačiji za svakog korisnika)
+ - uvođenje u urbanim i zatvorenim prostorima
+* HSPA+
+ - nadogradnja HSPA
+ - poboljšanje radijskih performansi HSPA
+ - povećanje kapaciteta i smanjenje kašnjenja
+ - bolje iskorištenje mogućnosti WCDMA
+ - omogućen paketski prijenos
+ - brzina: DL - 21 Mbit/s; UP - 5 Mbit/s
+
+
+###4G: LTE - Dugoročna evolucija radijske pristupne mreže
+
+* Poboljšanje performansi i kapaciteta
+* Brzina: DL - 326 Mbit/s; UP - 86 Mbit/s
+* Zahtjevi:
+ - potpuna IP mreža (samo komutacija paketa)
+ - više usluga, niže cijene, otvorena sučelja, pojednostavljenje arhitekture
+ - pokretljivost između različitih pristupnih mreža
+ - fleksibilnije korištenje postojećeg frekvencijskog pojasa (5-20 MHz)
+* Tehnologije:
+ - OFDMA (Orthogonal Frequency Division Multiple Access) - za DL
+ - SC-FDMA (Single Carrier FDMA) - za UL
+ - MIMO (Multiple Input Multiple Output) - višestruke antene, više paralelnih strujanja podataka prema korisniku
+
+
+###Povezivanje s WLAN mrežama
+
+* Integracija WLAN pristupnih točaka s UMTS pristupnom mrežom
+
+I-WLAN
+*#* Slajd 15.
+
+PDG
+* Packet Data Gateway
+* Registrira korisnike spojene na WLAN
+* Pridjeljuje im javnu IP adresu na temelju lokalne, s javnom se spajaju na internet
+* Omogućava pristup paketskim uslugama
+* Sadrži informacije o usmjeravanju
+
+WAG
+* WLAN Access Gateway
+* Usmjerava pakete od/prema WLAN pristupne mreže (AN) preko PDG do/od Interneta, radi pružanja usluge UE-ovima koji su spojeni na Internet preko WLAN-a
+* Ima funkcionalnosti vatrozida
+* Generira informacije o naplati prelaženja UE-ovima koji pristupaju Internetu preko WLAN-a
+
+Protokolni složaj I-WLAN
+*#* Slajd 18.
+
+Femtoćelije
+* Bežične pristupne točke male snage
+* Služe za spajanje pokretnih uređaja na mrežu pokretnog operatora preko DSL-a ili širokopojasnog kabelskog pristupa
+
+
+###Jezgrena mreža UMTS
+
+EPC - Evolved Packet Core
+SAE - System Architecture Evolution
+
+* Podržava pristupnu mrežu E-UTRAN uz smanjenje broja mrežnih entiteta
+* Pojednostavljenje funkcionalnosti
+* Smanjenje kašnjenja
+* LTE i SAE zajedno čine EPS - Evoluirani Paketski Sustav, koji je četvrta generacija pokretnih mreža (4G) i u potpunosti se temelji na IP protokolu
+
+Entiteti jezgrene mreže:
+1) Upravljački čvor MME
+ - entitet upravljanja pokretljivošću
+ - temeljni čvor jezgrene mreže
+ - nadležan za veliki broj čvorova eNodeB
+ - brine o signalizacijskim porukama od UE do čvorova jezgrene mreže
+ - funkcionalnosti: sigurnost, autentifikacija, dodjela mrežnih resursa, prekapčanje poziva, upravljanje pristupom, sjednicom i vezom, upravljanje lokacijom terminala u mirovanju
+2) Čvorovi prilaza:
+ a) Uslužni S-GW
+  - tunelira podatke prema P-GW
+  - sadrži ostale funkcije za upravljanje pokretljivošću
+  - prati kretanje korisničkog terminala između čvorova eNodeB
+  - brine o uspostavi veze s korisnicima drugih mreža
+ b) Paketski mrežni P-GW (PDNGW)
+  - usmjerava podatke od jezgrenog dijela mreže prema ostalim mrežama
+  - odgovoran za dodjelu IP adrese UE-ovima, naplatu i pružanje usluga određene kvalitete
+*#* Slajd 27.
+3) Ostali čvorovi:
+ a) HSS - poslužitelj domaćih pretplatnika
+ b) PCRF - čvor za upravljanje resursima i terećenjem
+  - terećenje, autorizacija, pružanje usluga s obzirom na pretplatnički profil, provođenje pravila operatora
+
+Korisnički protokoli LTE
+*#* Slajd 30.
+
+Pristup internetu putem LTE-SAE
+1) Uključivanjem UE u mrežu, MME kreira UE kontekst koji sadrži karakteristike veze i mogućnosti korisničkog terminala dobivene iz HSS-a
+2) Kreiranjem UE konteksta korisnički terminal dobiva IP adresu
+3) Uspostavom veze UE <-> P-GW omogućen je pristup internetu
+*#* Slajd 32.
+
+
+###Usluga pokretne TV (Mobile TV)
+
+* Koristi se višeodredišno razašiljanje tehnologijama:
+ a) MBMS preko pokretne mreže
+ b) DVB-H preko broadcast mreže
+
+a) MBMS:
+* Pristupna mreža - samo softverska nadogradnja kako bi razne stanice isporučivale podatke skupini korisnika
+* Jezgrena mreža - uvođenje novog čvora BM-SC (centar za višeodredišno razašiljanje)
+ - upravljanje višeodredišnom isporukom
+ - usmjeravanje toka podataka kroz jezgrenu mrežu
+ - sigurnost
+ - naplata
+*#* Slajd 38.
+
+
+###IMS - IP višemedijski sustav
+
+* Integracija Interneta i pokretnih mreža
+* Omogućuje preusmjeravanje prometa
+ - integracija pokretnih telekomunikacija s Internetom 
+ - pružanje usluga u stvarnom vremenu 
+* SIP upravlja višemedijskim pozivima
+
+Arhitektura IMS-a u mreži UMTS
+*#* Slajd 41.
+* Aplikacijski sloj - odvaja sadržaj i usluge od povezivanja i pristupa
+* Upravljački sloj - zajednička IP temeljna struktura
+* Sloj povezanosti - veze prema različitim pristupnim mrežama
+
+Aplikacijski sloj
+* Elementi IMS mreže i usluga
+ - Aplikacijski poslužitelji AS (Application Server)
+* Elementi usluga drugih mreža
+ - Open Service Access - Service Capability Server (OS CS)
+ - OSA AS - pruža uslugama pristup mrežnoj funkcionalnosti putem standardnog aplikacijskog programskog sučelja
+* IP Multimedia - Service Switching Function (IM SSF)
+ - poslužitelj za povezivanje IMS-a s uslugama koje su bile razvijene za GSM mrežu
+
+Upravljački sloj
+* Element baze podataka - domaći pretplatnički poslužitelj HSS (Home Subscriber Server)
+ - glavna baza s korisničkim podacima
+* Elementi upravljanja - funkcija za upravljanje sjednicom poziva CSCF (Call Session Control Function)
+* P-CSCF (Proxy CSCF) - posrednički SIP poslužitelj
+ - prva dodirna točka između terminala i IMS mreže
+ - registracija i autentifikacija korisnika, uspostavlja sigurnu asocijaciju s UE, QoS, naplata
+* S-CSCF (Serving CSCF)
+ - središnji upravljački čvor
+ - obavlja funkcije za upravljanje sjednicom, osluškuje AS-ove koji sudjeluju u komunikaciji, usmjerava SIP poruke
+* I-CSCF (Interrogating CSCF) - upitni CSCF
+ - prva točka u vlastitoj mreži, za kontakte iz gostujuće ili vanjske mreže
+* Elementi sučelja s upravljačkom razinom
+ - funkcija upravljanja medijskim pristupnikom MGCF (Media Gateway Control Function)
+ - funkcija upravljanja pristupnikom za prebacivanje veze BGCF (Breakout Gateway Control Function)
+ - signalizacijski pristupnik (SGW, Signaling Gateway)
+ - IMS MGW
+* Elementi resursa
+ - Funkcija medijskih resursa MRF (Media Resources Function)
+* Element sučelja na razini mreže - medijski pristupnik MGW (Media Gateway)
+
+Sloj povezanosti
+* UE se može povezati na IMS putem različitih pristupnih mreža temeljenih na IP protokolu
+
+
+###Prijelaz na IPv6 u pokretnoj mreži
+
+* U početnoj fazi, uz IPv6 UE će podržavati i IPv4
+* Transition Gateway (TrGW) - Vrši konverziju IPv6 paketa u IPv4 i obratno
+ - Može biti implementiran u NAT-u
+
+Međudjelovanje IPv4 i IPv6 mreža
+*#* Slajd 55. 56. 57.
+
+
+###Konvergencija mreža
+
+All-IP koncept (R7)
+* GERAN i UTRAN pristupne mreže u zajedništvu sa CS i PS domenama te IMS-om
+* Veliki porast IP podatkovnog prometa
+* Komutacija paketa u 3G mrežama zahtijeva daljnja proširenja
+
+AIPN evolucija (R8)
+* Uobičajena IP mreža koja osigurava upravljanje mrežom temeljeno na IP protokolu, te transport podataka temeljen na IP mreži putem različitih pristupnih mreža
+ - proširenje upravljanja pokretljivosti
+ - dodatne funkcionalnosti sigurnosti i privatnosti
+
+FMC mreža
+* Pristupni dio mreže
+ - pokretni RAN, WiMAX/WiFi, Fixed-Line BAN
+* Jezgreni dio mreže
+ - različiti autentifikacijski mehanizmi 
+ - različiti zahtjevi QoS
+ - nema definiranih standarda
+ - cijena, složenost
+
+
+
+
+
+*****
+13. predavanje - Pokretni virtualni mrežni operator, Tržišni aspekt pokretne mreže
+*****
+
+
+###Pokretni virtualni mrežni operator - MVNO
+
+* Nudi pokretne usluge korisnicima
+ - ne posjeduje koncesiju frekvencijskog spektra
+ - ne posjeduje vlastitu infrastrukturu
+ - mrežnim operatorima plaća korištenje njihove pokretne mreže
+* Prednosti:
+ - minimalno ulaganje
+ - konkurentnost
+* Nedostaci:
+ - nude osnovne usluge na teritorijalno ograničenom području
+ - ne nude roaming i posebne ponude i pogodnosti
+
+Četiri kategorije MVNO-a
+* MVNO tip 1
+ - u potpunosti preuzima mrežnu infrastrukturu od svog operatora 
+ - pruža osnovne usluge
+ - nizak trošak ulaganja, mali rizik poslovanja
+* MVNO tip 2
+ - posjeduje određene čvorove pokretne mreže (HLR) 
+ - vlastite SIM kartice za korisnike
+ - nudi neke dodatne usluge
+* MVNO tip3
+ - posjeduje djelomično vlastitu infrastrukturu (HLR, MSC) 
+ - nudi niz dodatnih naprednih usluga
+ - vlastita podrška za inteligentnu mrežu
+ - vlastite usluge
+* MVNO tip 4
+ - posjeduje vlastitu infrastrukturu (HLR, MSC, GMSC)
+ - podržava vlastito usmjeravanje prometa (vlastiti GMSC)
+
+Prometni tokovi - pokretni operator i MVNO-a tip 4
+*#* Slajd 10.
+
+Lanac vrijednosti u pokretnoj mreži
+*#* Slajd 12.
+
+Pokretni virtualni mrežni omogućitelji - MVNE
+* Nema izravan kontakt s korisnicima
+ - nudi tehničku infrastrukturu
+ - usluge naplate
+ - administracija
+ - podrška za bazne postaje
+ - niz pokretnih usluga
+
+Primjeri MVNO-a
+* Automobilska tvrtka
+ - pokretni terminali u automobilima
+ - nudi određene usluge zanimljive u automobilu tijekom vožnje
+* Aviokompanija
+ - u svojim prostorima povoljnije nudi svoje usluge
+
+
+###Tržišni aspekti pokretne mreže
+
+Pokazatelji rasprostranjenosti mreža i usluga
+* Telekomunikacijski pokazatelji (metodologija ITU-T) 
+ - broj pretplatnika ćelijske mreže
+ - omjer na 100 stanovnika (gustoća)
+ - postotak digitalnih korisnika
+ - broj pretplatnika s plaćanjem unaprijed (prepaid)
+ - prekrivenost stanovništva signalom
+ - postotak pokretnih u odnosu na ukupni broj telefonskih pretplatnika
+* Mreža 3G
+ - najrasprostranjenija pokretna mreža
+* Govorna usluga - dominantna
+* Podatkovne usluge
+ - SMS najveći udjel
+* Postotak digitalnih korisnika - 100%
+* Analiza pretplatnika prema načinu plaćanja
+ - prevladava pre-paid, ali opada
+* Pokrivenost stanovništva signalom
+ - razlikuje se za 2G, 3G i 4G mrežu
+
+Broj pretplatnika i penetracija
+* Gustoća 124,2% (listopad 2010.)
+* +2,3% u odnosu na prethodnu godinu
+* Pokretne mreže pokrivaju 95% stanovništva u EU (2010.)
+
+Broj pretplatnika i penetracija (HR)
+* Podaci za prosinac 2010.: 6362106 pretplatnika pokretne mreže
+* Gustoća korisnika: 143.45%
+
+Broj operatora
+* Operator pokretne mreže
+ - ukupni broj 3G i 4G operatora veći od broja 2G operatora
+* Davatelj pokretne usluge (mobile service provider)
+ - tvrtke autorizirane za pružanje pokretnih usluga pod svojim vlastitim nazivom/brandom uz uporabu mreže nekog operatora pokretne mreže
+ - stalni porast broja davatelja pokretnih usluga
+* Većina koncesija za 2G i 3G
+* Najčešće 2-4 operatora po državi
+
+Pokazatelji prodornosti novih tehnologija
+* 3G mreže i usluge
+ - Svi 3G operatori podržavaju HSDPA tehnologiju
+ - Uvođenje LTE
+
+Košara pokretnih usluga - Mobile Basket
+*  Košara uključuje fiksne i varijabilne troškove po pretplatniku u razdoblju od jedne godine, pri čemu se, na temelju prosječnih uzoraka uporabe, definiraju pojedini udjeli
+* OECD (Organisation for Economic Co-operation and Development) propisuje tri košare:
+ 1) Košara malog korisnika (Low user basket)
+ 2) Košara srednjeg korisnika (Medium user basket)
+ 3) Košara velikog korisnika (High user basket)
+* Košare se razlikuju prema sljedećim parametrima:
+ - broj odlaznih poziva, SMS i MMS poruka (mjesečno)
+ - udio poziva prema vrsti odredišta
+ - postotku poziva prema tarifi vezanoj za vrijeme korištenja
+ - trajanje poziva u minutama
