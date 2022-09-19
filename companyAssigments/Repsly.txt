@@ -1,0 +1,22 @@
+Repsly
+
+OPCIJA A - Points of interest explorer
+Treba napraviti web app koja će prikazati sve lokale (urede, kafiće, frizerske salone itd.) u krugu od 1 km za trenutnu geo lokaciju. 
+
+Informacije o lokalima se može pokupiti sa bilo kojeg javnog servisa (npr Foursquare-a ili Google Places). 
+Također treba:
+- Omogućiti filter po kategoriji i pretragu liste.
+
+----------------------------------------------------------------------
+
+OPCIJA B - Waiter app
+Napravi aplikaciju za izradu računa u kafiću. Neka podržava sljedeće:
+Kafić ima nekoliko stolova
+Kafić ima nekoliko konobara
+Kafić ima jedan cjenik
+Neka bude VRLO POJEDNOSTAVLJENA app za kreiranje vrlo jednostavnih računa u tom kafiću, na kojima se vidi koji konobar, koji stol, datum i vrijeme, te svo naručeno piće. Nije potrebno omogućiti uređivanje podataka o stolovima, konobarima ili cijenama, niti printanje, samo izrada računa je bitna. Ekstra bodovi za sustav gdje ugostiteljski obrt ima više kafića, ili je čak podržan rad više ugostiteljskih obrta (i time sustav postaje multi-tenant sustav, kakav je Repsly)
+
+Od standarda koje bismo htjeli:
+baza podataka bi trebala biti neka standardna (po mogućnosti ms sql server, ako ne onda my sql ili oracle, ali može i drugo).
+klijent može biti bilo što - exe, web aplikacija, nebitno. Jezik u kojem je pisana također nebitan, no kod nas je u primjeni C# pa je tako jednostavnije.
+

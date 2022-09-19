@@ -1,0 +1,11 @@
+[Potrebno je izraditi kviz u obliku web aplikacije. Kviz treba sadržavati minimalno
+ 3 pitanja. Na kraju je potrebno korisniku prikazati broj točnih odgovora 
+ i označiti točne odgovore zelenom, a netočne odgovore crvenom bojom.
+Zadatak je otvorenog tipa, pa su sve opcije izrade rješenja
+ (nasumičnost poretka pitanja, oblik pohrane pitanja, 
+ oblik entryja jednog pitanja…) prepuštene kandidatu. 
+ Isto tako, nema ograničenja za korištenje određenih alata i tehnologija.]
+
+Tim zadatkom ispitujemo način razmišljanja kandidata kod rješavanja problema izrade manje
+ aplikacije s jednostavnom funkcionalnosti, uključujući i proces odabira 
+ tehnologije koje će se koristiti u rješenju.
