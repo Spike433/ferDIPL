@@ -1,0 +1,5 @@
+[03:05:06] INFO: Umbra 3 Optimizer version 3.3.22  (build: aa99894236119ba2e0eac5ca04d0133b3067a375)
+[03:05:06] INFO: T: 20 O: 5 H: 0.25 B: 100
+[03:05:08] INFO: Tile grid 800x8x800 (at 0,-4,0) created for scene: 80000 tiles (0 empties not included) in 1.896 seconds
+[03:05:08] INFO: Using 4 threads to compute 80000 tiles, cache 4096 MB
+[03:09:01] DEBUG: Total allocations 1379539, peak 296060 (size 54 MB 79 kB 437 B)
