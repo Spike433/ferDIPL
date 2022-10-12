@@ -64,7 +64,7 @@ def right_rotation(node: Node, root: Node) -> Node:
         Node: The root of the binary tree, which could have changed due to the rotation.
     """
     rotator =  # TODO: The child
-    new_root =  # TODO: The resulting root (initially set to...)
+    new_root =   # TODO: The resulting root (initially set to...)
     if rotator is None:
         return new_root
     parent = rotatee.parent
