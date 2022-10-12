@@ -60,6 +60,7 @@ def right_rotation(node: Node, root: Node) -> Node:
         node (Node): The node on which the rotation is done.
         root (Node): Root node of the binary tree which contains the node which we are rotating.
 
+
     Returns:
         Node: The root of the binary tree, which could have changed due to the rotation.
     """
