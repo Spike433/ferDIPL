@@ -49,10 +49,10 @@ class Node:
             node.parent = self
 
 
-def left_rotation(node: Node, root: Node) -> Node:
-    """Left rotate a node
+def right_rotation(node: Node, root: Node) -> Node:
+    """Right rotate a node
 
-    Do a left rotation on the node specified as the first argument and return the root
+    Do a right rotation on the node specified as the first argument and return the root
     of the tree. The root can be the specified, second arugment (root) or a new root which
     changed because of the rotation.
 
@@ -63,38 +63,41 @@ def left_rotation(node: Node, root: Node) -> Node:
     Returns:
         Node: The root of the binary tree, which could have changed due to the rotation.
     """
-    rotator = node.right
+    rotator =  # TODO: The child
+    new_root =  # TODO: The resulting root (initially set to...)
+    if rotator is None:
+        return new_root
+    parent = rotatee.parent
+    if parent is None:
+    # TODO: We have a new root!
+    else:
+    # TODO: Update the parent
+
+    # TODO: Do the actual rotation/replacements
+
+    return new_root
+
+
+def right_rotation(node: Node, root: Node) -> Node:
+    rotator = node.left
     new_root = root
     if rotator is None:
         return new_root
     parent = node.parent
     if parent is None:
-        root = rotator
-        root.parent = None
+        new_root = rotator
+        rotator.parent = None
     else:
         if parent.left is node:
-              parent.set_left_child(rotator)
+            parent.set_left_child(rotator)
         if parent.right is node:
             parent.set_right_child(rotator)
 
-    t = rotator.left
-    rotator.set_left_child(node)
-    node.set_right_child(t)
+    tmp = rotator.right
+    rotator.set_right_child(node)
+    node.set_left_child(tmp)
 
     return new_root
-
-C = self.R
-if C is None: return
-A = self.P
-if A is not None:
-    if A.L is self: A.setLeftChild(C)
-    if A.R is self: A.setRightChild(C)
-else:
-    tree.root = C.toRoot()
-t = C.L
-C.setLeftChild(self)
-self.setRightChild(t)
-
 
 def print_tree(node: Optional[Node], level: int = 0) -> None:
     """
@@ -108,10 +111,9 @@ def print_tree(node: Optional[Node], level: int = 0) -> None:
     """
     if node is None:
         return
-    print_tree(node.right, level + 2)
+    print_tree(node.right, level + 4)
     print(' ' * level + f'-> {node.value}')
-    print_tree(node.left, level + 2)
-
+    print_tree(node.left, level + 4)
 
 root = Node(17)
 root.left = Node(13)
@@ -127,18 +129,18 @@ root.right.left.left = Node(18)
 print('Prije rotacije:')
 print_tree(root)
 
-# Left rotate around the root (first argument)
-root = left_rotation(root, root)
+# Right rotate around the root (first argument)
+root = right_rotation(root, root)
 
-assert root.value == 20
-assert root.left.value == 17
-assert root.left.left.value == 13
-assert root.left.left.left.value == 10
-assert root.left.left.right.value == 15
-assert root.left.left.right.left.value == 14
-assert root.left.right.value == 19
-assert root.left.right.left.value == 18
-assert root.right.value == 22
+assert root.value == 13
+assert root.left.value == 10
+assert root.right.value == 17
+assert root.right.left.value == 15
+assert root.right.left.left.value == 14
+assert root.right.right.value == 20
+assert root.right.right.left.value == 19
+assert root.right.right.left.left.value == 18
+assert root.right.right.right.value == 22
 
 print()
 print('Nakon rotacije:')
