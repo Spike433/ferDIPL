@@ -1,0 +1,82 @@
+def right_rotation(node: Node, root: Node) -> Node:
+    rotator = node.left
+    new_root = root
+    if rotator is None:
+        return new_root
+    parent = node.parent
+    if parent is None:
+        new_root = rotator
+        rotator.parent = None
+    else:
+        if parent.left is node:
+            parent.set_left_child(rotator)
+        if parent.right is node:
+            parent.set_right_child(rotator)
+                
+    tmp = rotator.right
+    rotator.set_right_child(node)
+    node.set_left_child(tmp)
+    
+    return new_root
+	
+    def __init__(self, value) -> None:
+        self.value = value
+        self.parent = self.right = self.left = None
+
+
+def stablo_uravnotezeno(root: Node) -> bool:
+
+    if (root) is None:
+        return True
+
+    else:
+        depthL, depthR = 0,0
+
+        if root.left is not None:
+            depthL = depth(root.left)
+        if root.right is not None:
+            depthR = depth(root.right)
+        return abs(depthL-depthR) < 2
+
+def depth(node: Node):
+    resL, resR = 0, 0
+    if node.left is not None:
+        resL = depth(node.left)
+    if node.right is not None:
+        resR = depth(node.right)
+    return 1 + max(resL, resR)
+	
+	
+def left_rotation(node: Node, root: Node) -> Node:
+    """Left rotate a node
+
+    Do a left rotation on the node specified as the first argument and return the root
+    of the tree. The root can be the specified, second arugment (root) or a new root which
+    changed because of the rotation.
+
+    Args:
+        node (Node): The node on which the rotation is done.
+        root (Node): Root node of the binary tree which contains the node which we are rotating.
+
+    Returns:
+        Node: The root of the binary tree, which could have changed due to the rotation.
+    """
+    rotator = node.right
+    new_root = root
+    if rotator is None:
+        return new_root
+    parent = node.parent
+    if parent is None:
+        new_root = rotator
+        root.parent = None
+    else:
+        if parent.left is node:
+              parent.set_left_child(rotator)
+        if parent.right is node:
+            parent.set_right_child(rotator)
+
+    t = rotator.left
+    rotator.set_left_child(node)
+    node.set_right_child(t)
+
+    return new_root
