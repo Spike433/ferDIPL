@@ -1,0 +1,84 @@
+CPN Tools state space report for:
+<unsaved net>
+Report generated: Fri Nov 11 14:21:02 2022
+
+
+ Statistics
+------------------------------------------------------------------------
+
+  State Space
+     Nodes:  3
+     Arcs:   3
+     Secs:   0
+     Status: Full
+
+  Scc Graph
+     Nodes:  1
+     Arcs:   0
+     Secs:   0
+
+
+ Boundedness Properties
+------------------------------------------------------------------------
+
+  Best Integer Bounds
+                             Upper      Lower
+     New_Page'ceka_potvrdu 1 1          0
+     New_Page'potvrda_zaprimljena 1
+                             1          0
+     New_Page'spreman_Za_slanje 1
+                             1          0
+
+  Best Upper Multi-set Bounds
+     New_Page'ceka_potvrdu 1
+                         1`()
+     New_Page'potvrda_zaprimljena 1
+                         1`()
+     New_Page'spreman_Za_slanje 1
+                         1`()
+
+  Best Lower Multi-set Bounds
+     New_Page'ceka_potvrdu 1
+                         empty
+     New_Page'potvrda_zaprimljena 1
+                         empty
+     New_Page'spreman_Za_slanje 1
+                         empty
+
+
+ Home Properties
+------------------------------------------------------------------------
+
+  Home Markings
+     All
+
+
+ Liveness Properties
+------------------------------------------------------------------------
+
+  Dead Markings
+     None
+
+  Dead Transition Instances
+     None
+
+  Live Transition Instances
+     All
+
+
+ Fairness Properties
+------------------------------------------------------------------------
+
+  Impartial Transition Instances
+     New_Page'povratak 1
+     New_Page'prihvat_potvrde 1
+     New_Page'slanje_poruke 1
+
+  Fair Transition Instances
+     None
+
+  Just Transition Instances
+     None
+
+  Transition Instances with No Fairness
+     None
