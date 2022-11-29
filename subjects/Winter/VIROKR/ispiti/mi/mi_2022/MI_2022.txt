@@ -1,0 +1,20 @@
+Born to cheat,
+Forced to pass
+
+1. GRAFICKI PROCESOR
+a) navedi funkcijske faze
+b) objasni minimalni ulaz, minimalni izlaz grafickog protocnog sustava
+c) sto je staticka, dinamicka kontrola toka, koja se od njih koristi za istovremeno iscrtavanje scene
+d) sto je odgođeno sjencanje
+
+2. SPECIJALNI EFEKTI
+a) objasni mipmap
+b) objasni trilinearna interpolacija
+c) objasni kockasto preslikavanje, nacrtaj
+d) objasni preslikivanje normala
+
+3. UBRZAVANJE ISCRTAVANJA
+a) sto je odbacivanje i nabroji 4 tehnike 
+b) nacrtaj trake trokuta i lepezu trokuta, objasni za sto se opcenito koriste
+c) napisi 3 linije koda algoritma portalnog odbacivanja
+d) Objasni čemu služi lod, koja je svrha alfa razine detalja 
