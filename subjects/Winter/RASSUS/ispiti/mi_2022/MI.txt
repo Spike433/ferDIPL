@@ -1,0 +1,25 @@
+1. 2 servera s proxyem, odredi svojstva (transparentnosti), objasni zasto ili zasto ne postoje
+
+2. Objasni komunikaciju raspodijeljenih algoritama, svojstva
+
+2. je meni bilo objasni komunikacijski promet tak nkj, i na što najvise utjece (ja stavio skalabilnost)
+3. skiciraj MVC i primjer koristenja MVC-a u nekoj aplikaciji
+
+3. Skiciraj MVC
+
+4. Skiciraj long poll i poll
+
+5. Topic exchange, RabbitMQ i jos onaj jedan protokol
+
+6. Skiciraj RPC
+
+7. Razlika izmedu gRPC i HTTP na formatu JSON
+
+8. Globalna stanja vektorska (nemam pojma sta je to)
+
+9. algoritam odabira vođe sinkrono 
+trebalo je skicirat i rec vremensku i kom. slozenost
+Za usmjereni graf
+
+
+10. Raspodijeljeni onaj prsten
