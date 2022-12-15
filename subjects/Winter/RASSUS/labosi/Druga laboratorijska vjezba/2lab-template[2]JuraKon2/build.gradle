@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.4.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+    implementation 'org.apache.kafka:kafka-clients:3.0.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+    implementation 'org.springframework.kafka:spring-kafka:2.7.6'
+    implementation 'com.opencsv:opencsv:4.6'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task Sensor(type: JavaExec) {
+    group = "exec"
+    description = "Run client with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "hr.fer.tel.rassus.sensorAndProducer.Sense"
+    standardInput = System.in
+}
+
+task Producer(type: JavaExec) {
+    group = "exec"
+    description = "Run client with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "hr.fer.tel.rassus.sensorAndProducer.Produce"
+    standardInput = System.in
+}
