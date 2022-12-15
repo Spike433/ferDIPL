@@ -1,0 +1,71 @@
+ZI
+Opisna pitanja
+1. Objasni mrtvu procjenu.
+
+	Mrtva procjena (Dead reckoning):na strani svakog čvora koristi se i simulacija i aproksimacija trenutnog stanja,aproksimacija je jednostavnija za računanje,svaki čvor za vlastite entitete šalje poruke osvježavanja samo ako razlika između simulacije i aproksimacije prijeđe zadani prag,svaki čvor radi predikciju (predviđanje) stanja udaljenih entiteta,npr. položaja i orijentacije,na temelju lokalno pohranjene informacije,pristup je pogodan za UVO s velikim brojem sudionika,algoritam mrtve procjene sastoji se od predikcije i konvergencije,uvjet za primjenu metode je (barem djelomična) predvidivost kretanja entiteta kako bi se mogla primijeniti predikcija
+
+2. Što je kinetoza? Zašto se pojavljuje?
+	skup simptoma koji uključuju mučninu, uzrokovane su ponavljanim kutnim i pravocrtnim ubrzavanjima i usporavanjima
+	
+3. Kako izgleda izračun stanja virtualnog svijeta?
+	Svakih period t server izračunava novo stanje svijeta na temelju
+	primljenih unosa klijenata
+
+	koliko puta u
+	sekundi se treba izračunati stanje svijeta mjeri se u Hz
+	
+	Igre interpoliraju pozicije i stanje virtualnog svijeta između dva
+	osvježenja stanja radi fluidnog prikaza, ali na razini poslužitelja
+	postoje samo stanja izračunata svakog period t
+	
+	Brzina prikaza igre na računalu je izražena u broju sličica u sek fps
+
+3. Kako filtriranje po području interesa utječe na skalabilnost?
+
+4. Objasni 3 načina mješanja kod proširene stvarnosti
+
+5. Razlika između igara i virtulanih svjetova
+
+	raspodijeljenost sadržaja virtualnog okruženja je
+	nevidljiva, a podaci koji predstavljaju virtualni svijet ili njegov dio pohranjeni su lokalno, na korisnikovom računalu
+
+	igre?
+
+6. Razlika između virtualne i proširene stvatnosti
+	
+	Proširena stvarnost dodaje virtualne elemente u stvarni svijet na taj način da izgledaju kao dio stvarnog svijeta Karakteristike AR:Kombinira stvarno i virtualno,Interakcija u realnom vremenu,Poravnavanje u 3D
+
+	VR) je pojam za računalne simulacije kojima je cilj stvoriti osjećaj prisutnosti u virtualnom okruženju.
+
+7. Jesu li specijalni efekti u filmovima proširena stvarnost?
+	
+ABCD
+1. Koji dijagram prikazuje korelaciju u podacima kod vizualizacije? Histogram, pie chart, scatter plot, box ?
+2. Koliko stupnjeva slobode treba dopustiti ako želimo pratiti kretanje u prostoru i pokrete glave? 3,4,5,6
+3. Kakve greške kod poravnavanja predstavljaju parametri virtualne kamere? Staticke, dinamicke nestaju kada je scena  nepomicna
+
+4. Kod cloud gaminga, što se uvijek odvija na klijentu?
+5. Kako biste opisali arhitekturu središnjeg poslužitelja sa zajedničkim podacima?
+	 središnji repozitorij sadrži sve podatke o zajedničkom stanju UVO,svi čvorovi u svakom trenutku imaju identični pogled na zajedničko stanje,središnji repozitorij nadzire čitanje i pisanje stanja,kao i poredak pri osvježavanju stanja
+	
+6. Ako je osvježavanje 10 sličica po sekundi, koliko se vremenski mora slati osvježavanje?
+7. Današnji SLAM funckionira na principu _________ uređaja?
+8. koje od sljedećih mehanizama NE korsitimo za skalabilnost
+
+Opisna ista, a neka dodatna ABCD:
+Koji se od navedenih mehanizama koristi kod velikog broja korisnika koji dijele zajednički virtualni prostor unutar istog područja?
+	• rastezanje vremena (ovo je tocno po meni, Spike433)
+	• premotavanje vremena
+	• predikcija kretanja igrača (mislim da je ovo točno)
+	• vremenski odmak u izračunu stanja nakon dolaska komandi
+	
+Koji način kretanja kroz scenu bismo trebali koristiti ako želimo minimizirati vjerojatnost pojave kinetoze kod korisnika prilikom korištenja naše aplikacije u VR-u?
+	• upravljanje tijelom (ljudski joystick)
+	• telerpotaciju (mislim da je ovo točno)
+	• kontinuirano klizno kretanje kroz scenu
+
+From <https://fer.studosi.net/d/1668-virokr-o-predmetu/18> 
+
+
+
+From <https://fer.studosi.net/d/1668-virokr-o-predmetu/17> 
