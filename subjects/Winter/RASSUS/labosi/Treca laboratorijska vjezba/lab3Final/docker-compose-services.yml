@@ -1,0 +1,26 @@
+version: "3"
+services:
+  temperatura-mikroservis:
+    image: temperatura:v1
+    ports:
+      - "8081:8080"
+    networks:
+      - network-lab3
+
+  tlak-mikroservis:
+    image: tlak:v1
+    ports:
+      - "8082:8080"
+    networks:
+      - network-lab3
+
+  agregacijski-mikroservis:
+    image: agregacija:v1
+    ports:
+      - "8083:8080"
+    networks:
+      - network-lab3
+
+networks:
+  network-lab3:
+    driver: bridge

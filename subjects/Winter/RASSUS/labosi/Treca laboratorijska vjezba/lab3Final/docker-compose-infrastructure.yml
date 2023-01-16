@@ -1,0 +1,19 @@
+version: "3"
+services:
+  eureka:
+    image: eureka:v1
+    ports:
+      - "8761:8761"
+    networks:
+      - network-lab3
+
+  config:
+    image: config:v1
+    ports:
+      - "8888:8888"
+    networks:
+      - network-lab3
+
+networks:
+  network-lab3:
+    driver: bridge
