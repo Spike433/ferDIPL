@@ -1,0 +1,90 @@
+from typing import Dict, Hashable, List,Set
+import collections
+import random
+
+
+class DirectedGraph(object):
+    """
+    Class representing the directed graph.
+    ...
+    Attributes
+    ----------
+    
+    vertex_dict: dict
+        Dictionary containing adjacent vertices. 
+    """
+    def __init__(self, adjacency_list:Dict[Hashable,Set]=None):
+        if adjacency_list is None:
+            adjacency_list = []
+        self.vertex_dict = adjacency_list
+
+    def get_vertices(self)->List:
+        """
+        Return all vertex labels.
+
+        Returns:
+            List: list of all vertex-labels in the graph
+        """
+        return list(self.vertex_dict.keys())
+
+    def get_neighbors(self, vertex:Hashable)->Set:
+        """
+        Returns a list of vertex neighbors.
+
+        Args:
+            vertex (Hashable): Vertex label
+
+        Raises:
+            ValueError: if there is no vertex with a given label
+            in the graph
+
+        Returns:
+            Set: set of neighbors
+        """
+        if vertex not in self.vertex_dict.keys():
+            raise ValueError(f'Vertex {vertex} does not exist in this graph')
+        return self.vertex_dict[vertex]
+
+
+def detect_cycle(graph: DirectedGraph)->bool:
+    """
+    Detects if there exists a cycle in directed graph that might be consisting
+    of disconnected components.
+
+    Args:
+        graph (DirectedGraph): input graph
+
+    Returns:
+        bool: True if there is cycle in a graph, else False
+    """
+    visited = []
+    stack = collections.deque()
+    for source in graph.get_vertices():
+        if detect_cycle_recursive(graph, source, visited, stack):
+            return True
+    return False
+
+
+def detect_cycle_recursive(graph:DirectedGraph, current_vertex:Hashable, visited: List, stack:collections.deque)->bool:
+    """
+    Recursively searches for any cycle in connected components.
+
+    Args:
+        graph (DirectedGraph): input graph
+        current_vertex (Hashable): search goes from this vertex
+        visited (List): mark visited vertices
+        stack (collections.deque): current DFS track
+
+    Returns:
+        bool: True if found cycle, else False
+    """
+    visited.append(current_vertex)
+    stack.append(current_vertex)
+    for v in graph.get_neighbors(current_vertex):
+        if v in stack:
+            return True
+        if v not in visited:
+            if detect_cycle_recursive(graph, v, visited, stack):
+                return True
+    stack.remove(current_vertex)
+    return False
