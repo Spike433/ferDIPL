@@ -1,0 +1,36 @@
+B grupa je Ježić, pitao je:
+Ipv6 vs Ipv4: razlika u zaglavljima, 
+koja polja su izbačena (ona za fragmentaciju, veličina zaglavlja jer sad je fiksno i zaštitna suma), 
+koja su nova (prometna klasa i onaj tok te polje za iduće zaglavlje), 
+zašto nema zaštitne sume (jer se više vremena gubilo na njenu provjeru)
+BGP: tu me nije previše pitao jer sam mu gro toga ispričao pa je samo pitao koji transportni protokol koristi (TCP)
+
+pita po ZI kaj niste znali, nakon kaj vas pita kako ste zadovoljni s ispitom
+pita onaj LTE zadatak pa na slajdu vam pokaze LTE mrezu sa onim MME/HSS itd., pa morate objasnit te cvorove i koja im je funkcija
+onda pita jos kojim cvorovima se prenose podaci
+pitao me OSPF da pricam kaj znam
+zadnje me pitao kojim protokolom se dodjeljuje IP adresa racunalu, te razlika izmedju IPv4 i IPv6
+kolegu je pitao NDP funkcije, BGP protokol da prica kaj zna, IPv6 kaj zna da prica, i isto ko i mene LTE zadatak sa ZI
+
+mene pitao rip vs ospf i paradigme kojima komuniciraju uredaji u IoT. Lijepo daje bodove
+
+B grupa je Ježić, pitao je:
+Ipv6 vs Ipv4: razlika u zaglavljima, koja polja su izbačena (ona za fragmentaciju, veličina zaglavlja jer sad je fiksno i zaštitna suma), koja su nova (prometna klasa i onaj tok te polje za iduće zaglavlje), zašto nema zaštitne sume (jer se više vremena gubilo na njenu provjeru)
+BGP: tu me nije previše pitao jer sam mu gro toga ispričao pa je samo pitao koji transportni protokol koristi (TCP)
+
+Nije mi jasno kako uredit post pa evo pitanja kod Skocira:
+pita po ZI kaj niste znali, nakon kaj vas pita kako ste zadovoljni s ispitom
+pita onaj LTE zadatak pa na slajdu vam pokaze LTE mrezu sa onim MME/HSS itd., pa morate objasnit te cvorove i koja im je funkcija
+onda pita jos kojim cvorovima se prenose podaci
+pitao me OSPF da pricam kaj znam
+zadnje me pitao kojim protokolom se dodjeljuje IP adresa racunalu, te razlika izmedju IPv4 i IPv6
+kolegu je pitao NDP funkcije, BGP protokol da prica kaj zna, IPv6 kaj zna da prica, i isto ko i mene LTE zadatak sa ZI
+
+skocir, pita mreze redom 1G-5G specificnosti, novitete u svakoj, brzine, uloge cvorova u mrezama (npr u kojoj mrezi je SGSN i kaj on radi)
+Svojstva petrijeve mreze
+
+skocir
+pita ipv4 vs ipv6, koja sve dodatna zaglavlja imamo, sigurnost ipv6, kako to da je ipv4 u funkciji jos uvijek a ima tako mali broj adresa (zbog lokalnih adresa, ruter ima jednu adresu od ISP, a onda se 30 ljudi moze spojit na njega i dobiva adresu od ruterea), velicina adr prostora ip4 ip6
+u 5g koji mehanizmi se koriste (trazio odgovor mrezni odsječci)
+senzori za neku infrastrukturu mogu bit kriticni, pa zahtjevaju vecu brzinu
+roboti zahtjevaju brzinu da se ne sudare u tvornici

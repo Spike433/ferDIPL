@@ -3,11 +3,6 @@
 14. Pretplata
 8. usmjeritelj-usmjeritelj, IPv6 komuniciraju kroz IPv4
 
-USMENI:
-Pitao me IPv4 i IPv6, i protokole usmjeravanja
-Sve po malo o tome
-Pita kaje novo
-
 LJIR - 2021
 1. Automati - graf stanja
 2. Petrijeva mreza - struktura
