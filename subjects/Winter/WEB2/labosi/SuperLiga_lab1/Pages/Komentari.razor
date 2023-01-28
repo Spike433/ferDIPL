@@ -1,0 +1,160 @@
+﻿@page "/komentari"
+
+@inject AuthenticationStateProvider AuthState
+
+<h3 style="margin-bottom : 30px" >Komentari</h3>
+
+<AuthorizeView Roles="Upravitelj">
+    <Authorized>
+        <select @bind="upravljacKomentarima.Datum" class="form-control">
+            @if (Cuvar.UpravljacKomentarima.Count == 0)
+            {
+                <option value=""></option>
+            }
+            else
+            {
+                <option value="">Select value</option>
+                @foreach (var k in Cuvar.UpravljacKomentarima)
+                {
+                    <option value="@k.Datum">@k.Autor @k.Tekst @k.Datum</option>
+                }
+            }
+        </select>
+        <button class="btn btn-danger" style="margin: 50px 0px 50px 0px" @onclick="ObrisiBiloKojiKom">Obrisi komentar</button>
+    </Authorized>   
+</AuthorizeView>
+
+<AuthorizeView Roles="Korisnik">
+    <Authorized>
+        <select class="form-control selectpicker" style="width:400px" contextmenu="Select round" @bind="@runda">
+            <option value="0">Odaberi rundu</option>
+            <option value="1">Prva runda</option>
+            <option value="2">Druga runda</option>
+        </select>
+        <br/>
+        <input placeholder="Upisi komentar" type="text" class="form-control" style="width:400px" @bind="@komentar.Tekst"/>
+        <button class="btn btn-success" style="margin: 30px 0px 0px 0px" @onclick="UpisiKomentar">Upisi komentar</button>
+        <h4 style="color:red;margin-top:40px;margin-bottom: 40px">@greska</h4>    
+        <br/>
+        <select @bind="upravljacKomentarima.Datum" style="width:400px;margin-bottom:30px"  class="form-control">
+            @if (Cuvar.UpravljacKomentarima.Count == 0)
+            {
+                <option value=""></option>
+            }
+            else
+            {
+                <option value="">Select value</option>
+                @foreach (var k in Cuvar.UpravljacKomentarima)
+                {
+                    <option value="@k.Datum">@k.Autor @k.Tekst @k.Datum</option>
+                }
+            }
+        </select>
+        <input placeholder="Promijeni komentar" type="text" class="form-control" style="width:400px" @bind="@noviKomentar"/>
+        <button class="btn btn-secondary" style="margin: 50px 0px 50px 0px" @onclick="PromijeniKomentar">Promijeni komentar</button>
+        <button class="btn btn-danger" style="margin: 50px 0px 50px 0px" @onclick="ObrisiKom">Obrisi komentar</button>
+    </Authorized>
+</AuthorizeView>
+
+@if (Cuvar.UpravljacKomentarima != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Runda</th>
+                <th>Autor</th>
+                <th>Tekst</th>
+                <th>Vrijeme stvaranja</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var kom in Cuvar.UpravljacKomentarima)
+            {
+                <tr>
+                    <td>@kom.RundaId</td>
+                    <td>@kom.Autor</td>
+                    <td>@kom.Tekst</td>
+                    <td>@kom.Datum</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private UpravljacKomentarima upravljacKomentarima { get; set; } = new UpravljacKomentarima();
+    private int runda = 0;
+    private string greska { get; set; }
+    private string noviKomentar { get; set; }
+    private Komentar komentar = new Komentar();
+
+    private void ObrisiKom()
+    {
+        Cuvar.UpravljacKomentarima.RemoveAll(
+            u =>
+            ime == u.Autor &&
+            u.Datum.ToString() == upravljacKomentarima.Datum.ToString()
+        );
+
+        upravljacKomentarima.Datum = DateTime.Now;
+    }
+
+    private void ObrisiBiloKojiKom()
+    {
+        Cuvar.UpravljacKomentarima.RemoveAll(
+            u =>            
+            u.Datum.ToString() == upravljacKomentarima.Datum.ToString()
+        );
+
+        upravljacKomentarima.Datum = DateTime.Now;
+    }
+
+    private void PromijeniKomentar()
+    {
+        Cuvar.UpravljacKomentarima.Where(u => 
+            ime == u.Autor &&
+            u.Datum.ToString() == upravljacKomentarima.Datum.ToString()
+        ).Select(u =>
+        {
+            u.Tekst = noviKomentar;
+            u.Datum = DateTime.Now;
+            upravljacKomentarima.Datum = u.Datum;
+            return u;
+        }).ToList();
+
+        noviKomentar = string.Empty;
+        upravljacKomentarima.Datum = DateTime.Now;
+    }
+
+    private void UpisiKomentar()
+    {
+        if(runda !=0 && komentar.Tekst != null && komentar.Tekst != string.Empty)
+        {
+            greska = null;
+
+            komentar.Autor = ime;
+            komentar.Datum = DateTime.Now;
+
+
+            var u = new UpravljacKomentarima{
+                RundaId = runda,
+                Autor = komentar.Autor,
+                Tekst = komentar.Tekst,
+                Datum = komentar.Datum
+            };
+            
+            Cuvar.UpravljacKomentarima.Add(u);
+        }
+        else
+        {
+            greska = "Odaberite rundu ili upisite komentar";
+        }
+    }
+    private string ime { get; set; }
+
+    protected override async void OnInitialized()
+    {
+        var stanje = await AuthState.GetAuthenticationStateAsync();
+        ime = stanje.User.Identity.Name ?? string.Empty;
+    }
+}

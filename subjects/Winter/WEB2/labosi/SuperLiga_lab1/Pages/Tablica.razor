@@ -1,0 +1,45 @@
+﻿@page "/tablica"
+
+<h3>Tablica</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Pobjede</th>
+            <th>Izjednaceno</th>
+            <th>Suma danih golova</th>
+            <th>Suma dobivenih golova</th>
+            <th>Razlika</th>
+            <th>Rezultat</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bod in bodovi)
+        {
+            <tr>
+                <td>@bod.Ime</td>
+                <td>@bod.Pobjede</td>
+                <td>@bod.Izjednaceno</td>
+                <td>@bod.SumaGolova</td>
+                <td>@bod.SumaDobivenih</td>
+                <td>@bod.Razlika</td>
+                <td>@bod.Rezultat</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code{
+    private List<Bodovi> bodovi { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var gen = new GenerirajBodove();
+        bodovi = gen.StvoriBodove();
+        bodovi.Sort((prvi, drugi) => drugi.CompareTo(prvi));
+    }
+}
+

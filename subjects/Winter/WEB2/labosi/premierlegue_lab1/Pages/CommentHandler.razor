@@ -1,0 +1,260 @@
+﻿@page "/comments"
+@using QuizManager.Data
+@attribute [AllowAnonymous]
+
+@inject AuthenticationStateProvider AuthState
+
+<br />
+<h2>Comments</h2>
+<br />
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <h4 style="margin-bottom:50px">Admin form for deleting comment</h4>
+        
+        <select class="form-control selectpicker" contextmenu="Select round" @bind="selectedDate" style="margin-bottom:30px;width:350px">
+            
+            <option value="">Select comment from list</option>
+
+            @foreach (var comment in DataSaveer.roundCommentManagers)
+            {
+
+                @foreach (var comList in comment.Comments)
+                {
+                    var str = @comment.RoundId.ToString() + "|" + @comList.Created.ToString();
+                    <option value="@str">Round = @comment.RoundId Author = @comList.AuthorId Date = @comList.Created Comment = @comList.Description </option>
+                }
+            }
+        </select>
+
+        <button class="btn btn-outline-primary" @onclick="DeleteComment">Delete comment</button>
+        <h3 style="color:red;margin-top:30px">@error</h3>
+        <br />
+    </Authorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="User">
+    <Authorized>
+        <h4 style="margin-bottom:50px">User form for changining/deleting comment</h4>
+
+        <select class="form-control selectpicker" contextmenu="Select round" @bind="selectedDate" style="margin-bottom:30px;width:350px">
+
+            <option value="">Select comment from list</option>
+
+            @foreach (var comment in DataSaveer.roundCommentManagers)
+            {
+
+                @foreach (var comList in comment.Comments)
+                {
+                    @if(comList.AuthorId == userName)
+                    {
+                        var str = @comment.RoundId.ToString() + "|" + @comList.Created.ToString();
+                        <option value="@str">Round = @comment.RoundId Author = @comList.AuthorId Date = @comList.Created Comment = @comList.Description</option>
+                    }
+                }
+            }
+        </select>
+        <input type="text" style="width:350px;margin-bottom:25px" class="form-control" @bind="@ChangedComment" placeholder="Enter new text here"/>
+        <button class="btn btn-outline-primary" @onclick="ChangeComment">Change comment</button>
+        <button class="btn btn-outline-primary" @onclick="DeleteComment">Delete user comment</button>
+        <h3 style="color:red;margin-top:30px">@error</h3>
+        <br />
+
+        <h4 style="margin-bottom:50px">User form for adding comment</h4>
+
+        <select class="form-control selectpicker" contextmenu="Select round" @bind="selectedDate2" style="margin-bottom:30px;width:350px">
+
+            <option value="">Select comment from list</option>
+            <option value="1">Round = 1</option>
+            <option value="2">Round = 2</option>
+            <option value="3">Round = 3</option>
+    }
+        </select>
+        <input type="text" style="width:350px;margin-bottom:25px" class="form-control" @bind="@AddCommentStr" placeholder="Enter new text here"/>
+        <button class="btn btn-outline-primary" @onclick="AddComment">Add user comment</button>
+        <h3 style="color:red;margin-top:30px">@error2</h3>
+        <br />
+
+    </Authorized>
+</AuthorizeView>
+
+
+<br />
+@if (DataSaveer.roundCommentManagers is not null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th>AuthorId</th>
+                <th>Created</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in DataSaveer.roundCommentManagers)
+            {
+                <tr>
+                    <th colspan="4"><h3>@(comment.RoundId).</h3></th>
+                </tr>
+                @foreach (var comList in comment.Comments)
+                {
+                    <tr>
+                        <th></th>
+                        <th>@comList.AuthorId</th>
+                        <th>@comList.Created</th>
+                        <th>@comList.Description</th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private string userName { get; set; }
+    private string comment { get; set; }
+    private string error { get; set; }
+    private string error2 { get; set; }
+    private string selectedDate { get; set; }
+    private string selectedDate2 { get; set; }
+    private string ChangedComment{ get; set; }
+    public string AddCommentStr { get; set; }
+
+    private void AddComment()
+    {
+
+        if (selectedDate2 != "" && selectedDate2 != null)
+        {
+
+            DataSaveer.roundCommentManagers.ElementAt(int.Parse(selectedDate2) - 1).Comments.Add
+            (
+            new Comment
+                {
+                    AuthorId = userName,
+                    Created = DateTime.Now,
+                    Description = AddCommentStr
+                }
+            );
+
+            AddCommentStr = "";
+            selectedDate2 = "";
+            error2 = "";
+        }
+        else{
+
+            error2 = "Round not selected";
+        }
+
+    }
+
+    private List<int> dropDown = new List<int>()
+    {
+        1,2,3
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthState.GetAuthenticationStateAsync();
+        userName = state.User.Identity.Name ?? string.Empty;
+    }
+
+    private int selectedValue { get; set; }
+
+    private void DeleteComment()
+    {
+        if(selectedDate != null && selectedDate != "")
+        {
+            var round = int.Parse(selectedDate.Split("|")[0]);
+            var date = selectedDate.Split("|")[1];
+
+            error = "";
+            DataSaveer.roundCommentManagers.ElementAt(round-1).Comments.RemoveAll(x => x.Created.ToString() == date.ToString());            
+            selectedDate = "";
+            ChangedComment = string.Empty;
+        }
+        else
+        {
+            error = "Record not selected";
+        }
+    }
+
+    private void ChangeComment()
+    {
+        if (selectedDate != null && selectedDate != "")
+        {
+            var round = int.Parse(selectedDate.Split("|")[0]);
+            var date = selectedDate.Split("|")[1];
+
+            DataSaveer.roundCommentManagers.ElementAt(round - 1).Comments
+            .Where(c => c.Created.ToString() == date.ToString())
+            .Select(c =>{ 
+                c.Description = ChangedComment;
+                c.Created = DateTime.Now;
+                c.AuthorId = userName;
+                return c;
+            }
+            ).ToList();
+
+            ChangedComment = string.Empty;
+            selectedDate = "";
+            error = "";
+        }
+        else
+        {
+            error = "Record not selected";
+        }
+    }
+
+    private void DDeleteComment()
+    {
+        if (selectedValue != 0 && comment != null && comment != "")
+        {
+            error = string.Empty;
+            var temp = new RoundCommentManager
+                {
+                    RoundId = selectedValue,                    
+                };
+
+            if (DataSaveer.roundCommentManagers.Contains(temp))
+            {
+                var found = DataSaveer.roundCommentManagers.FirstOrDefault(x => x.RoundId == temp.RoundId);
+
+                found.Comments.Add
+                (
+                    new Comment
+                        {
+                            AuthorId = userName,
+                            Created = DateTime.Now,
+                            Description = comment
+                        }
+                );
+            }
+            else
+            {
+                DataSaveer.roundCommentManagers.Add
+                (
+                    new RoundCommentManager
+                        {
+                            RoundId = selectedValue,
+                            Comments = new List<Comment>()
+                            {
+                            new Comment
+                            {
+                                AuthorId = userName,
+                                Created = DateTime.Now,
+                                Description = comment
+                            }
+                            }
+                        }
+                );
+            }
+
+            comment = string.Empty;
+        }
+        else
+        {
+            error = "Please select round and enter comment";
+        }
+
+    }
+}

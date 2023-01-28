@@ -1,0 +1,7 @@
+D:\gitCodes\lab3again\WebApplication2\obj\Release\net6.0\PubTmp\Out\WebApplication2.exe
+D:\gitCodes\lab3again\WebApplication2\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+D:\gitCodes\lab3again\WebApplication2\obj\Release\net6.0\PubTmp\Out\appsettings.json
+D:\gitCodes\lab3again\WebApplication2\obj\Release\net6.0\PubTmp\Out\WebApplication2.dll
+D:\gitCodes\lab3again\WebApplication2\obj\Release\net6.0\PubTmp\Out\WebApplication2.deps.json
+D:\gitCodes\lab3again\WebApplication2\obj\Release\net6.0\PubTmp\Out\WebApplication2.runtimeconfig.json
+D:\gitCodes\lab3again\WebApplication2\obj\Release\net6.0\PubTmp\Out\WebApplication2.pdb

@@ -1,0 +1,24 @@
+﻿@page "/"
+@inject AuthenticationStateProvider AuthState
+
+<AuthorizeView Roles="Upravitelj,Korisnik">
+    <Authorized>
+        <p>Ovu poruku moze vidjeti Upravitelj i Korisnik.</p>
+        <span>Korisnik @ime</span>
+
+    </Authorized>
+    <NotAuthorized>
+        <p>Molim da se ulogirate kako bi vidjeli podatke</p>
+    </NotAuthorized>
+
+</AuthorizeView>
+
+@code {
+    private string ime { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var stanje = await AuthState.GetAuthenticationStateAsync();
+        ime = stanje.User.Identity.Name?? string.Empty;   
+    }
+}

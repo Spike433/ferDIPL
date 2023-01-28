@@ -1,0 +1,59 @@
+﻿@page "/fetchdata"
+@attribute [AllowAnonymous]
+
+@using QuizManager.Data
+
+
+<h1>Games Schedules</h1>
+
+@if (DataSaveer.schedules == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rounds</th>                
+                <th>Dates</th>  
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var schedule in DataSaveer.schedules)
+            {
+                @if (schedule.Id % 2 != 0)
+                {
+                    <tr>
+                        <td><h3>@(index++).round opponents</h3></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+
+                <tr>
+
+                    <td>@schedule.Opponents </td>
+                    <td>@schedule.Date.ToShortDateString()</td>
+                </tr>               
+            }
+        </tbody>
+    </table>
+    { resetIndex(); }
+
+    @*<button class="btn btn-warning" @onclick="@(() => toastService.ShowWarning("I'm a WARNING message"))">Warning Toast</button>
+    <button class="btn btn-success" @onclick="@(() => toastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!"))">Success Toast</button>*@
+}
+
+@code {
+    
+    private int index = 1;
+
+    private void resetIndex()
+    {
+        index = 1;
+    }
+    protected override async Task OnInitializedAsync()
+    {        
+    }
+}

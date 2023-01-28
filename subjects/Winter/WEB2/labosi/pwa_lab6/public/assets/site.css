@@ -1,0 +1,21 @@
+/* * {
+  border: 1px solid blue;
+} */
+body {
+  font-family: 'Fira Sans', Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #DDD;
+}
+/* div.header {
+  height: 10vh;
+  text-align: center;
+} */
+div.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+div.logo-wrapper img {
+  max-width: 75%;
+  max-height: 800px;
+}

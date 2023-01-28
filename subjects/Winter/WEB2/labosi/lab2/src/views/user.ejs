@@ -1,0 +1,221 @@
+<html>
+  <head>
+    <title>User</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <header><%- include(`_header`); %></header>
+
+  <body>
+    <aside class="profile-card">
+
+      <% if (data == undefined) { %>
+      <h1>User doesn't exist</h1>
+      <% } else { %>
+      <header>
+        <a>
+          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Frcmi.fiu.edu%2Fwp-content%2Fuploads%2Fsites%2F30%2F2018%2F02%2Fno_user.png&f=1&nofb=1&ipt=fb6bc55134b9eb7a0f9175d9dc1e81f433def1caa381d479ba909d5538b5f09f&ipo=images">
+        </a>
+    
+        <h1><%= data.username %></h1>
+        
+        <h2><%= data.role %></h2>
+        
+      </header>
+      
+      <div class="profile-bio">
+        <p>ID: <%= data.id %></p>
+        
+        <p style="line-break: anywhere;"><%= data.password %></p>
+        
+      </div>
+      <% } %>
+    </aside>
+  </body>
+
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700);
+
+*, *:after, *:before {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    font-family: inherit;
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+    font: 300 13px/1.6 Roboto, Helvetica, Arial;
+    color: #444;
+    position: relative;
+    background: #448AFF;
+    height: 100vh;
+    text-align: center;
+  /*background: #3f51b5;*/
+
+  background: url('http://ali.shahab.pk/blur.php?img=http://ali.shahab.pk/ali-shahab.jpg&x=250') no-repeat center center;
+  background-size: cover;
+}
+body:after{
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0,0,0,.5);
+  z-index: -1
+}
+
+ul{
+    list-style: none;
+}
+
+img {
+    -ms-interpolation-mode: bicubic;
+    vertical-align: middle;
+    border: 0;
+}
+
+.profile-card{
+  width: 300px;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+  position: relative;
+  margin: auto;
+  background: rgba(255,255,255,1);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.profile-card header{
+  display: block;
+  position: relative;
+  background: rgba(255,255,255,1);
+  text-align: center;
+  padding: 30px 0 20px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.profile-card header:before{
+  content: "";
+  position: absolute;
+  background: url('http://ali.shahab.pk/blur.php?img=http://ali.shahab.pk/ali-shahab.jpg&x=60') no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  
+}
+
+.profile-card header:after{
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+  );
+}
+
+.profile-card header img{
+  border-radius: 100%;
+  overflow: hidden;
+  width: 150px;
+  /*border: 1px solid rgba(255,255,255,.5);*/
+  box-shadow: 0 1px 0 rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.1);
+}
+
+.profile-card header h1{
+  font-weight: 200;
+  font-size: 42px;
+  color: #444;
+  letter-spacing: -3px;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-card header h2{
+  font-weight: 400;
+  font-size: 14px;
+  color: #666;
+  letter-spacing: .5px;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-card .profile-bio{
+  padding: 0 30px;
+  text-align: center;
+  color: #888;
+}
+
+.profile-card .profile-social-links{
+  display: table;
+  width: 70%;
+  margin: 20px auto;
+}
+
+.profile-card .profile-social-links li{
+  display: table-cell;
+  width: 33.3333333333333333%
+}
+
+.profile-card .profile-social-links li a{
+  display: block;
+  text-align: center;
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 100%;
+  -webkit-transition: box-shadow 0.2s;
+  -moz-transition: box-shadow 0.2s;
+  -o-transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s;
+}
+.profile-card .profile-social-links li a:hover{
+  box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12),0 1px 1px 0 rgba(0,0,0,.24);
+}
+
+.profile-card .profile-social-links li a:active{
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 2px 4px -1px rgba(0,0,0,.2);
+}
+
+.profile-card .profile-social-links li a img{
+  width: 100%;
+  display: block;
+}
+  </style>
+</html>

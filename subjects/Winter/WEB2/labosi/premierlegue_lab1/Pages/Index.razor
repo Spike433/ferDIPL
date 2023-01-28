@@ -1,0 +1,36 @@
+﻿@page "/"
+@inject AuthenticationStateProvider AuthState
+
+<AuthorizeView>
+    <Authorized>
+        @foreach (var claim in context.User.Claims)
+        {
+            <p>@claim.Type - @claim.Value</p>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h2> Please login to see all the claims</h2>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Admin">
+    Only Administrators can see this.
+</AuthorizeView>
+@code { 
+  private string Username = "Anonymous User";
+  private string Picture = "";
+
+  protected override async Task OnInitializedAsync()
+  {
+    var state = await AuthState.GetAuthenticationStateAsync();
+
+    Username = state.User.Identity.Name?? string.Empty;
+
+    Picture = state.User.Claims
+                .Where(c => c.Type.Equals("picture"))
+                .Select(c => c.Value)
+                .FirstOrDefault() ?? string.Empty;
+
+    await base.OnInitializedAsync();
+  }
+}

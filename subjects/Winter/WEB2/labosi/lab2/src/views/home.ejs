@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <header><%- include(`_header`); %></header>
+
+  <body>
+    <h1>Korisnički računi:</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Password</th>
+          <th scope="col">Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">user</td>
+          <td>password</td>
+          <td>user</td>
+        </tr>
+        <tr>
+          <td scope="row">admin</td>
+          <td>password</td>
+          <td>admin</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Bad access</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <header><%- include(`_header`); %></header>
+
+  <body>
+    <div class="row">
+    <div class="col m-5">
+      <h2>Loša kontrola pristupa</h2>
+      <h4>Link: <a href="/access/bad/user/<%= user?.id || 1 %>">/access/bad/user/<i>id</i></a></h4>
+      <h4>Bilo tko može pregledavati podatke od bilo kojeg računa.</h4>
+    </div>
+    <div class="col m-5">
+      <h2>Dobra kontrola pristupa</h2>
+      <h4>Link: <a href="/access/good/user/<%= user?.id || 1 %>">/access/good/user/<i>id</i></a></h4>
+      <h4>Ulogirani user može pregledavati podatke samo od svojeg računa, a administrator može pregledavati od bilo kojeg računa.</h4>
+    </div>
+    </div>
+  </body>
+</html>

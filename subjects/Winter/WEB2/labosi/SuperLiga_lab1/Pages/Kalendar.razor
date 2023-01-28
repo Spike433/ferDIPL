@@ -1,0 +1,45 @@
+﻿@page "/kalendar"
+
+@attribute [AllowAnonymous]
+
+ @inject AuthenticationStateProvider AuthState
+
+<h3>Kalendar</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Runda</th>
+            <th>Protivnik1</th>
+            <th>Protivnik2</th>            
+            <th>Rezultat1</th>
+            <th>Rezultat2</th>
+            <th>Prognoza</th>
+            <th>Datum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mec in Cuvar.Mecevi)
+        {
+            <tr>
+                <td>@mec.Runda</td>
+                <td>@mec.Protivnik1</td>
+                <td>@mec.Protivnik2</td>                
+                
+                <AuthorizeView Roles="Upravitelj">
+                    <Authorized>
+                            <td><input type="number" class="form-control" @bind="@mec.Rezultat1" /></td>
+                            <td><input type="number" class="form-control" @bind="@mec.Rezultat2" /></td>
+                    </Authorized>
+                    <NotAuthorized>
+                        <td>@mec.Rezultat1</td>
+                        <td>@mec.Rezultat2</td>
+                    </NotAuthorized>
+                </AuthorizeView>
+
+                <td>@mec.Prognoza</td>
+                <td>@mec.Datum</td>
+            </tr>
+        }
+    </tbody>
+</table>

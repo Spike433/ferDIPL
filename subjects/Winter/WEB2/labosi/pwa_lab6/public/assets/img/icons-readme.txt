@@ -1,0 +1,1 @@
+Generirao ikone za "sve" OS-ove na temelju logo.png pomoću https://www.pwabuilder.com/imageGenerator

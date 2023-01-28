@@ -1,0 +1,120 @@
+@page "/rounds"
+@attribute [AllowAnonymous]
+
+ @using QuizManager.Data 
+ @inject AuthenticationStateProvider AuthState
+
+   
+@if ( DataSaveer.schedules == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Loggined user: @userName</h3>
+    <br/>
+    <h2>Rounds</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rounds with opponents</th>
+                <th>Left Score</th>
+                <th>Right Score</th>                                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var schedule in DataSaveer.schedules)
+                {
+                    @if (schedule.Id % 2!=0)
+                    {
+                    <tr>
+                        <td><h2>@(_index++).round</h2></td>
+                        <td></td>
+                        <td></td>                        
+                    </tr>
+                    }
+                    <tr>
+                        <td>@schedule.Opponents</td>
+
+                        <AuthorizeView Roles="Admin">
+                            <Authorized>                            
+                                    <td><input type="number" class="form-control" @bind="@schedule.LeftScore"/></td> 
+                            </Authorized>
+                            <NotAuthorized>
+                                <td>@schedule.LeftScore</td>
+                            </NotAuthorized>
+                        </AuthorizeView>
+
+                        <AuthorizeView Roles="Admin">
+                            <Authorized>
+                                <td> <input type="number" class="form-control" @bind="@schedule.RightScore" /></td>
+                            </Authorized>
+                            <NotAuthorized>
+                            <td>@schedule.RightScore</td>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                    </tr>
+                }
+        </tbody>
+    </table>
+    @if(true){
+        resetIndex();        
+    }
+    <br/>
+    <h2>Scores</h2>       
+
+     <table class="table">
+        <thead>
+            <tr>
+                <th>Club name</th>
+                <th>Points</th>
+                <th>Goals Difference</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var score in scores)
+            {
+                <tr>
+                    <th>@score.Name</th>
+                    <th>@score.Score</th>
+                    <th>@score.Diff</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private int rounds = 1;
+    private int _index { get; set; } = 1;
+    private string userName { get; set; }
+    
+    private int selectedValue { get; set; }
+
+    private List<Scores>? scores { get; set; }
+     
+    private async void LoadCommentData()
+    {
+    }
+
+    private void resetIndex()
+    {
+        rounds = _index;
+        _index = 1;
+        scores = new ScoresService().GetScores();
+        scores.Sort((a, b) => b.CompareTo(a));
+    }
+
+    private void SortScores()
+    {
+        
+    }
+
+    protected override async void OnInitialized()
+    {
+        var state = await AuthState.GetAuthenticationStateAsync();
+        userName = state.User.Identity.Name ?? string.Empty;
+        scores = new ScoresService().GetScores();
+    }
+}
+
