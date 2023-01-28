@@ -1,0 +1,143 @@
+Podnar Zarko
+Pokazala mi je sliku automata 2PC i rekla da objasnim sto se tu dogada i kako funkcionira. Jos me pitala da kazem gdje bi moglo doci do blokiranja
+Pokazala je sliku sinkronog odabira vođe u prstenu i rekla da objasnim sve
+Kad sam zapeo negdje me usmjerila lijepo i dala bodove velikodušno 🙂
+
+jrebic Pripužić, par skupljenih usmenih od dns:
+1) Što je skalabilnost? Da imamo graf (x os broj korisnika, y os vrijeme odziva) kako bi izgledao za skalabilne i neskalabilne sustave?
+2) Zašto se uvodi sinkronizacija sata? Na koje načine se radi sinkronizacija?
+3) Jel blockchain strukturiran ili nestrukturiran?
+4) Jel torrent strukturiran ili nestrukturiran? Ovdje sam mu reko da je nestrukturiran, on je pitao zašto i ja sam reko da tak piše u prezi i onda je on bio: ajme ne vjerujem da to piše i kad je našao to u prezi reko je da je to nebuloza, da je to krivo. I onda mi je pričo malo kako torrent radi, a ja sam trebao reći samo razliku između strukturirane i nestrukturirane mreže.
+5) Publish subscribe
+
+Pripužić pitanja:
+1) klijentska replika - objasniti i primjer
+2) P2P, primjer nestrukturiranog
+
+
+
+Podnar Zarko
+
+    Objasni two phase algoritam
+    Algoritam međusobnog isključivanja u usmjerenoj mreži, kakav je model kanala, komunikacijska složenost
+    Strukturirani i nestrukturirani P2P ( Gnutella)
+
+
+
+Pripuzic
+
+    nefunkcijske karakteristike, sta ce nam to, kako mjerimo
+    sinkrono vs asinkrono, sta ce nam sinkrono ako asinkrono zvuci super.
+
+nije me htio vise pitat jer mi ne bi mjenjalo ocjenu
+
+Kusek
+    Bizantski ispad (koliko procesa treba za određivanje ispada, a koliko za dogovor)
+    O modelu objavi pretplati (i je li se može koristit za sinkronizaciju i na koji način)
+    Što je sinkronizacija i koje još metode postoje za sinkronizaciju
+    Nešto o vektorskim oznakama
+    O vrstama replika i koja je replika bolja poslužitelja ili klijentima, i kako se dohvaćaju klijentele replike na webu (get s upitnikom ili tako nešto)
+
+
+
+Podnar Žarko:
+
+    2PC pokazala slajd i trebalo je objasniti kako funkcionira, čemu služi, kad dolazi do blokiranja, što se sve može dogoditi od problema i kako se rješavaju
+    nestrukturirane P2P mreže, objasniti što su, kako se objavljuje podatak i kako se pretražuje
+
+
+
+pripuzic usmeni za prolaz:
+
+    vektorski vs skalarni satovi
+    transparentnost (krenuo sam u detalje a zapravo je samo htio cut ‘skrivanje detalja od korisnika’)
+    kako bi sastavio sustav, da to dobijem za zadatak u nekoj firmi s odredjenom BP, tj koji bi prvi korak bio… to nisam znao iz prve, al jako je logicno - pogledat logove
+
+Grupa 5, Kusek
+Pitao me kako bi napravila sustav u kojem bi teleskopi prenosili racunalima sliku kao screensaver. Znaci racunala koja se ne koriste konstatno, tipa uredska kojima je svrha samo Excel i Word, da se za vrijeme nekoristenja koriste za racunanje neobicnih aktivnost u svemiru, a pri tom da slika iz svemira bude screensaver.
+Otkud bi pocela, sto, kako, zasto. Mislim da razliciti odgovori mogu biti tocni, samo je bitno da postoji logicno obrazlozenje (bar sam tak ja odg) i dao mi 10 bodova. Trajalo je max 10 min.
+
+
+
+Zarko
+sto je komunikacijska slozenost, koje algoritme za sinkroniziranje vremena imamo i što je uzročna povezanost procesa
+
+
+Komunikacijska složenost, algoritam vođe u prstenu, hdfs objasniti replikaciju i particioniranje
+
+Vektorske oznake
+Centraliziran/raspodijeljen sustav - prednosti, mane…
+Skalabilnost
+
+
+
+Kod Ivane Podnar-Žarko.
+
+Što je raspodijeljeni algoritam?
+Što je komunikacijska složenost?
+Što je vremenska složenost i kod kakvog sustava ju možemo izračunati (kod sinkronog, kod asink. ne)?
+Kako pojedini čvor održava blok-lanac?
+Kako se održava globalno stanje mreže u bitcoinu/ethereumu? (Svako kod sebe drži ono što misli da je globalno stanje, odnosno najdulji lanac)
+
+Zaustavimo sirenje naziva blok-lanac na vrijeme
+
+On topic:
+Sto je AJAX?
+Sto su p2p mreze, jesam li koristio neku? Koju sam koristio? Je li ona strukturirana ili ne i koja je razlika?
+
+Podnar Žarko
+
+    detaljno o 2PCu
+    detaljno o blockchainu
+
+Pitanja vezana za 2PC su bila:
+
+    čemu služi
+    ona otvori slajd i onda objasniš način funkcioniranja
+    u kojim sve stanjima mogu zaglaviti koordinator i proces
+    kada će se dogoditi da zaglave
+    kako se rješava ako zaglave u nekom stanju
+    može li se dogoditi da neki procesi dobiju poruku commit, a drugi ne
+    ako se to dogodi, što onda?
+    može li se dogoditi da neki procesi ne dobiju poruku, a drugi da
+    može li dogoditi da je jedan procesu u nekom stanju , a drugi u nekom drugom stanju
+	
+
+
+Kušek:
+
+Implementacija Chat sustava
+
+Ispitivao me Pripužić, pitanja su bila:
+
+    opiši 2PC i 3PC, razlike između njih
+    koje je značajno blokirajuće stanje koje može nastupiti kod 2PC, a koje kod 3PC
+    što je replikacija, a što particioniranje
+    kako se replikacijom mogu poboljšati performanse, a kako particioniranjem
+
+Za buduće generacije kod Pripužića:
+
+    Skalabilnost na primjeru Whatsapp-a, kako bi se tu mirila skalabilnost
+    2PC općenito o tome, čemu služi za šta se koristi
+    Blockchain primarno na temelju bitcoina, u čemu je fora s tim, kako funkcionira
+
+Pitanja s usmenog preko Teamsa (Pripužić)
+
+1) Transparentnost
+
+    što je transparentnost i navedi nekoliko vrsta
+
+2) Skalarne i vektorske oznake vremena
+
+    navedi obilježja i međusobne razlike
+    može li se sa sigurnošću utvrditi redoslijed događaja pomoću skalarnih/vektorskih oznaka
+
+3) Peer-to-peer
+
+    navedi dvije vrste peer-to-peer sustava i po čemu se razlikuju
+    koja vrsta peer-to-peer sustava je blockchain i zašto
+
+
+Usmeni - Podnar Žarko
+
+Peer-to-peer: Decetralizirani i centralizirani prednosti i mane, Strukturirani i nestrukturirani, usporediti ih sa centr i decentr.

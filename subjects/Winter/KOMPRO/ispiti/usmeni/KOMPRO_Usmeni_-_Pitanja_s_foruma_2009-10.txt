@@ -1,0 +1,81 @@
+
+GPRS mrežu, odlazak na internet prek nje, brzinu koja se dobiva, ukljuèivanje u GPRS, protokole (npr. GTP protokol),
+èemu služi GGSN.
+
+******************************************************************************
+
+ja odgovarao kod lovreka danas. bio sam druga grupa. pitao me SIP i UMTS. od SIP-a me pitao da skiciram izravni poziv, 
+kako se definiraju parametri i da mu nacrtam protokolarni slozaj. za UMTS mi je dao onu shemu sa domenama i pitao me 
+gdje tu imamo IP. i onda me trazio da mu objasnim zasto na user equipmentu imamo IP i na desnoj strani skroz isto a u 
+sredini nema IP-a (GTP i PDCP). I za kraj je postavio pitanje koji protokol u fiksnoj mrezi radi isto sto i PDCP u 
+UMTS-u i odgovor je bio PPP. Nadam se da vam ovo pomaze. 
+
+********************************************************************************************
+
+Mene je ispitiva Lovrek (prošli put u Ježiæa bia) i èini mi se da je sve OK prošlo  Baš ugodan razgovor, s obzirom da 
+sam mislio da ce bit katastrofa jer nikako ovaj 3 ciklus nemogu probaviti.
+Uglavnom pitao me: Sip - da skiciram razmjenu zahtjeva i odgovora, pa me malo o tome ispitiva. Pa me pita IMX to 
+nisam baš znao ali te on navodi do pravog odgovora. Onda mi je nacrtao sliku na kojoj sam trebao objasniti nekakve 
+komponente kad se sa mobilnog iz UMTS spajam na net (RNC, SGSN, GGSN). Još me pitao i one mobilne virtualne operatere, 
+pa smo još nevezano o gradivu poprièali o tomatu
+
+**************************************************************************************
+
+Bio sam kod Lovreka, itao me SIP: koje imamo poslužitelje i koja je razlika izmeðu njih, i onda me pitao kako se 
+uspostavlja poziv i oko toga znaèi onaj ringing, trying koja je razlika, kad se korisnik premjesti kaj se dešava... 
+
+*********************************************************************************
+
+Kako san prica s kolegicama i kolegama koji su odgovarali prije mene izgleda da jezic pita po redu, znaci prvih 
+nekoliko studenata krene sa SIPom i opcenito signalizacijski protokoli, pa onda puca po GPRSU,UMTSu i HSPA, pa onda IMS.
+Dosta je ljudi pita koje su brzine kod GSMa, GPRSa, UMTSa i HSPA. To je , u biti jedini detalj koji je pita, ostalo 
+je sve tipa reci mi sta znas o tom i tom pa ti pricas. 
+Mene je pita SIP, SIGTRAN, onaj Softswich i HSPA.
+
+************************************************************************************
+
+Ima nekoliko isprintanih slajdova. Da vam neki i kaže vam da isprièate sve što znate. Npr. slajdovi sa prikazom 
+korisnièke/upravljaèke ravnine, arhitektura GPRS, UMTS, IMS, ...
+
+Ili vam kaže neku opæenitu stvar i da prièate sve što znate. Nrp.: GPRS, UMTS, SIP, IMS, ...
+I zna se nadovezati na tu vašu prièu, pa vam eventualno postavi neko podpitanje i slièno.
+
+
+Dosta èesto ispituje brzine prijenosa kod pojedinih arhitektura. Znaèi:
+GSM (14,4 kbit/s)
+GPRS (8*14,4 = 115,2 kbit/s)
+EDGE (8*48 = 384 kbit/s)
+UMTS (144 kbit/s, 384 kbit/s i 2 Mbit/s)
+HSPA
+LTE
+
+******************************************************************************************************
+
+e, da mene je jos pita koja je razlika IPv6 u odnosu na IPv4, ali do toga je "slucajno" doslo jer su na slici koju mi 
+e da (di je bija SIP) bili IPv4 i IPv6 pa je to samo usput pita. Prica san s jos 10,15 ljudi prije i nikog nije pita 
+staro, tako da...
+Inace, ta slika je 8. slide s 10. predavanja. Kaze, koji su ti protokoli poznati i reci nesto o njima, ali to se 
+uglavnom svodi da pricas o SIPu :)
+
+*****************************************************************************************************
+
+Jutros, grupa 2, Lovrek. Uglavnom pili po SIP-u: gdje se koristi, kada, sigurnost, promjena s video komunikacije samo na 
+tekstualnu komunikaciju usred sjednice i još štošta..
+
+********************************************************************************************************
+
+Ježiæ danas pita isto il vrlo slièno pitanje 2 osobe zaredom. Što bi znaèilo ili æete dobit pitanje koje je kolega/kolegica 
+prije vas dobio/dobila ili æete dobit neš novog što isto kolege prije vas mogu lako otkrit jer ide redom po slajdovima kako 
+su mu složeni. Pa ako netko vidi koji je iduæi slajd po redu super za vas 
+
+
+Uglavnom dosad su pitanja bila vezana uz IMS i onu sliku njegove arhitekture te koji se protokoli koriste pri komunikaciji 
+IMSa sa HSSom.
+
+GPRS protokolni složaj, UMTS protokolni složaj. Pa onda nakon tog pitanja zna pitati koji se protokoli po pojedinim slojevima 
+mogu koristiti pri komunikaciji s HLRom il HSS ovisno o kojem je sustavu rijeè, jel 
+
+Takoðer je pitao slajd. 8 iz cjeline 10 ilti SIPa pa onda treba razvezat o SIPu, entitetima u komunikaciji, protokolima 
+po slojevima koji se koriste pri komunikaciji i tak.
+
+Uglavnom dobro je raspoložen, nitko nije dobio ispod 7 bodova, najèešæe se dobivalo 8 il 9, a za 10 treba bit poseban

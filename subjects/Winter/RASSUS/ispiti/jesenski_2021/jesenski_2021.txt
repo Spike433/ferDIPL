@@ -1,0 +1,19 @@
+Uloga sloja raspodijeljenih sustava.
+Objasni migracijsku, lokacijsku i relokacijsku transparentnost na primjeru DNS-a.
+Razlike publish-sub i komunikacije preko poruka
+Tablica za TCP , kojim redoslijedom idu naredbe
+Proof of Work koncept
+Graf za lokalno obnavljanje replike
+Dijagram atomic multicasta, objasni što je i jeli graf pokazuje atomic multicast
+Obnavnjanje pomoću checkpointa - je li moguće na zadanom grafu
+Zašto HTTP 1.1 koristi perzistentne TCP veze
+Što je tranzijentna a što perzistentna komunikacija
+Jedan zadatak sa sinkronizacijom - proces d se izvršava nakon a,b,c - kojim bi mehanizinom sink to postigli i skiricati ga
+Zašto je potrebna konzistentnost i nabroji vrste
+Predonosti i nedostaci skalarnih oznaka
+analitički izraziti p* u sustavu
+zadatak kao iz 3 zadaće
+chord - dodati čvor u mrežu
+objasniti alg odabira vođe u sink mreži (grafu)
+obilježja komunikacije s repom
+Objasniti Advanced Messaging Queue Protocol
