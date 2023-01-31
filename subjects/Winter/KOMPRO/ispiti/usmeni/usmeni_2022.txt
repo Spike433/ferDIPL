@@ -1,0 +1,23 @@
+Ježić:
+Rip, ospf, bgp pa pricaj sve dok te ne zaustavi (mislim da nas je 4/5 pitao ovo)
+Razlike izmedu ipv4 i ipv6
+Protokol koji omogucuje fragmentaciju u ipv6
+Pokaze slajd IMS pa moras pricat o SIP-u, HSS-u i onom za naplatu (cscf il tak nes)
+Esp i ipsec
+
+Jevtić: razlika v4 v6, usmjeravanje, IoT, SIP, fragmentacija. Vise pricanje s njim nego striktno odgovaranje sto je sto
+
+Jetvic
+Iot, peer to peer(spomenite torrent, razlika u odnosu na clibet server je što peer može istovremeno razasiljati podatke), ndp VS arp, pokaže onu sliku za ipv4 kada se paket odbacuje
+Bitno je da pričate, tako ga navedete da vas pita ono što znate
+Spominjanje bilo kakve stvari ne vezane za ispitivanje je samo bonis
+Bonus
+
+11/15
+tunelski način rada
+5g protokoli- coap i mqtts
+iot sustavi- koje su njihove prednosti i mane
+mvno- virtualni operatori
+ipv4 vs ipv6
+
+Petrijeve mreze (konfliktni i simultani prikelazi), usmjerni protokoli da malo pojasnim (igp egp rip ospf bgp), beskonacna petlja u ripu, beskonacna petlja u ipv4 i ipv6 (sprjecavamo ju s ttlom)
