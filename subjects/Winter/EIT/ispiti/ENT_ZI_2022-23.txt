@@ -1,0 +1,46 @@
+Etika i nove tehnologije ZI
+Imajte na umu da pitanja nisu tocno definirana kao na ispitu nego pisana po prezentacijama jer se sjecam koji je odogvor bio. Takodjer nije tocan redoslijed pitanja kao sto je bio na ispitu.
+
+Pitanja na zaokruživanje (samo jedno točno) - 1 bod (nema negativnih)
+(točni odgovori na zaokruživanje imaju prvo slovo veliko i nakon pojma veliko slovo T)
+1. Prema Humeovom zakonu iz premisa koje okpisuju činjenice ne može se na deduktivno valjan način izvesti kakva konkluzija:
+a)deskriptivna B)Normativna T c)znanstvena d)matematička
+2. Prema Noziku kakva država treba biti:
+a) b) C)Minimalna T d)maksimalna
+3. Društvene i ekonomske nejednakosti su dopustive ako nose najveću korist:
+a) svima B)najlošije stojećima T c)srednje stojećima d) najbolje stojećima
+4. Teorija pravesnoti napisao je:
+a) Marx b) Mili c) E... D) Rawls T
+5. Nestručna i nekvalificirana radna snaga; uglavnom fizički rad; niži društveni položaj i primanja:
+A)Plavi ovratnici T b)bijeli ovratnici c)zeleni ovratnici d)x ovratnici
+6. Tko je bio zarobljen u požaru u Godwinovu primjeru s biskupom od Cambraia
+A)Sobarica T b)prosjak c)Mona Lisa d) Newton
+7. Algoritam u targetu je trebao moći predvidjeti
+A) Trudnoću T b)krađu robe c)alkoholizam d)srčane bolesti
+8. Skinner je htio koje životinje koristiti u navođenju bombe u WW2?
+a) b) c)psi D)Golubovi T
+9. Jus in bello i Jus ad bello oboje imaju:
+a)pravedan razlog b)ispravna namjera C)Razmjernost T d)zadnje rješenje
+10. Zlo je dopustivo ako je kao sporedni učinak i nenamjeravano.
+A)Dvostruki učinak T b)trostruki učinak c) d)
+11. Bostrom definira za postčovjeka potrebno je koliko postljudskih sposobnosti:
+A) barem jednu T b)barem dvije c)barem tri d)barem četiri
+Pitanja gdje je odgovor jedna riječ, fraza ili jedna rečenica - 3 boda
+1. Nejednakost različitih skupina ljudi (različitih zemalja) s obzirom na pristup digitalnim, informacijskim thenologijama u literaturi se naziva: Digitalna razdjelnica
+2. Kako se naziva pravednost koja zahtjeva pravičnu kaznu za zločine i proporcionalne kazne. Retributivna pravednost
+3. Koji odjevni predmet je Rawls koristio u svojoj socijalno-liberalnoj teoriji. Veo neznanja.
+4. Korisnost ili ugoda koja se dobiva grickanjem prvoga čokoladnoga kolačića znatno je veća od one koja se dobiva od drugoga. Grickanje drugog kolačića daje veću ugodu nego grickanje trećeg kolačića. To se naziva: Opadajuća granična korisnost.
+5. Ekonomija za koju se zalgao Marx je: Planska ekonomija
+6. !!Ne sjedam se pitanja!! Obrnuta diskriminacija (afirmativno djelovanje)
+7. Pseudonimizacija je reverzibilna pa se podaci mogu ponovno pripojiti i poslužiti za naknadnu identifikaciju ispitanika. kako se zove drugi proces koji nije reverzibilan. Anonimizacija
+8. Postoje dva izma koji govore da je pravedni rat besmislen. Pacifizam i Realizam
+9. Kako glasi pitanje tranzicije troškova
+Odgovor: prezentacija 6. slide 18
+10. Navedite jedan problem kod poreza na robote.
+Odgovor: prezentacija 6. slide 20
+11. Problem algoritamske pristrasnoti.
+Odgovor: prezentacija 7 slide 16
+12. Moralni status.
+Odgovor: prezentacija 9 slide 16
+13. Prema utilitaristima koji kriteriji mora biti zadovoljen da bi biće imalo moralni status.
+osjećanje (sentient) - osjećanje ugode i boli

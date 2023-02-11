@@ -1,0 +1,30 @@
+MI Umrezene igre 25 bodova
+
+1(3 boda)
+a)(1) Kvazi višekorisničko igranje
+b)(1) 3 načina dijeljenja ekrana
+c)(1) Kompetititvno višekorisničko igranje - kompetitivni scenariji, nabroji, objasni + primjer
+
+2.(4 boda)
+a)Unity Game Object, Scena i komponente, objasni šta su i u kakvom su odnosu
+b)Rigid body komponenta
+c)Prozor Inspector
+d)Razlika između Mesh materijala i fizikalnog materijala.
+
+3.(6 bodova)
+a)(1) Izbor transportne usluge i protokola iz perspektive razviajtelja igara
+b)(2)Adresiranje u sučelju transport-mreža, u sučelju transport-aplikacija, krajnje točke logićke veze
+c)(3) Što je NAT i kako radi. Razine izvedbe NAT-ova. Koji problem riješava.
+
+4 (8 bodova)
+(2) skica - prosireni model osnovnih funkcija
+a)Zajedničko dinamičko stanje
+b)Zašto je potrebno vlasništvo (i objasni ga). Tko je autoritet
+c)razlike između jake i slabe konzistentnosti i zašto bi htjeli slabu + primjer.
+d)Distribuirana deterministička simulacija - implementacija jake konzistentnosti
+e)Izračunaj vjerojatnost kod interpolacije da u međuspremniku veličine 4 neće biti 2 snimke. Vjerojatnost gubitka paketa je 2%. 
+
+5.(4 boda)
+(2) Skica uspostave veze sa socketom
+a)(1)Serijalizacija
+b)(1)Tko sve može biti primatelj RPC zahtjeva

@@ -1,0 +1,35 @@
+Umrezene igre ZI 23.1.2023.
+
+1. (gradivo 1. ciklusa)
+a) Nabroji tri poslovna modela (p2p. f2p, hibrid)
+b) objasni pojam (ili definiraj) autonomni sustav u mreži
+c) Skiciraj slanje UDP paketa, treci paket se izgubi, (nesto traje 3 ciklusa - vrijeme izmedju slanje poruka)
+2. Photon (ppt 6)
+a) Nabroji i objasni photon na visokoj, srednjoj i niskoj razini
+b) skiciraj PUN 2 arhitekturu posluzitelja i objasni
+c) na visokoj razini cime se vrsi sinkronizacija ?
+3. (ppt 7)
+a) Nabroji 3 kategorije korisnickog iskustva
+b) nabroji tri glavne faze u produkciji (odnosi se zapravo na tri glavne faze u razvoju igre) - odgovor (komentirano s asistentom nakon ispita): predprodukcija, produkcija, postprodukcija
+c) objasniti 3 tipa mrezna kasnjenja i koje je najznacajnije
+d) -- mozda fali pitanje uz oblak i lokalno oko parametara mreze nes u tom stilu--
+4. (ppt 8)
+a) problem obrnute smrti iza zida - objasnit i kod koje kompenzacije kasnjenja se pojavljuje
+b) -- mozda fali pitanje -- predikcija vremena?
+c)mrtva procjena objasni
+5. (ppt 9)
+a) definiraj skalabilnost
+b) rastezanje vremena
+c) tehnika zrcaljenja
+d) podrucje interesa
+6. (ppt 9?)
+a)-- ne sjecam se --
+b) -- arhitektura klijent server i raspodijeljeno, kako se bave skalabilnosti i tko preuzima obje pozitivne stvari i to implementira 
+7. (ppt 9)
+a) elo algoritam
+b) koji algoritam je razvijan za vise igraca ili vise timova
+
+--
+bilo je pitanje i za "obicnu" smrt iza zida kao obj;
+za oblak je bilo nes tipa koje su razlike u mrežnim zahtjevima izmedu tradicionalnog i oblak gaminga;
+za predikciju vremena msm da je bilo kako se koristi za smanjenje mreznog prometa
