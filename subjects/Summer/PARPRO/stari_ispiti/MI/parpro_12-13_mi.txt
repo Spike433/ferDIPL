@@ -1,0 +1,35 @@
+﻿1.	(6) Korištenjem MPI funkcija Send i Recv (skraćena sintaksa) napisati odsjećak programa (proizvoljne složenosti)
+ koji će za N procesa ostvariti funkciju MPI_Barrier, 
+tj. postići da svi procesi moraju doći do istog odsjećka prije nego bilo koji proces može nastaviti s izvođenjem. 
+(U svakom procesu varijabla ID je index, a varijabla N ukupni broj procesa.)
+
+2.	(4) Uporabom MPI funkcija Send i Recv (skraćena sintaksa) 
+navedite primjer MPI programa koje se ponaša nedeterministički i pokažite moguće primjere izvođenja
+ (skicirajte razmjenu poruka).
+
+3.	(6) Tablica istinitosti bool-ove funkcije n varijabli predstavljena je nizom (nula i jedinica) duljine 2^n.
+ Napisati algoritam za EREW PRAM računalo koji će odrediti položaj prve i posljednje znamenke nule u tablici istinitosti 
+(prirodni brojevi u intervalu [1, 2^n]). 
+Nakon toga potrebno je odrediti broj znamenki jedinica koje se nalaze između prve i posljednje znamenke nule.
+ Na raspolaganju su 2^n procesora te funkcije reduciranja i prefiksa (scan) za proizvoljnu operaciju.
+
+4.	(4) Napisati algoritam za EREW PRAM računalo koji će za zadani niz P[]
+ odrediti broj različitih vrijednosti elemenata polja. 
+Npr. za polje [1, 2, 1, 3, 4, 2, 5, 1] rezultat iznosi 5.
+ Za polje od n elemenata na raspolaganju je n procesora.
+ Rezltat mora biti zapisan u jednoj izlaznoj varijabli.
+ Ocijeniti složenost algoritma.
+
+5.	(5) Provedite + prescan algoritam na zadanom polju duljine n = 14 elemenata i na p = 8 procesora.
+ Označite podjelu elemenata po procesorima i napišite izvedbu algoritma u obliku stabla.
+ Ulazno polje je A[] = [4 7 1 0 5 2 6 4 8 1 9 7 3 0].
+
+6.	(1) Zrnatost zadataka se može definirati kao ___.
+	(1) U modelu raspodijeljene memorije, procesori mogu komunicirati jedino ___.
+	(1) Složenost provedbe postupka scan niza duljine n elemenata na PRAM računalu uz p procesora gdje je p<(n/2) iznosi ___.
+	(1) Prilikom izvođenja optimalno postupka +_reduciranja niza duljine n na PRAM računalu, ukupan broj operacija zbrajanja na svim procesorima iznosi ___.
+	(1) Na APRAM računalu, uz trajanje globalnog pristupa 4 vremenske jedinice, 2 uzastopna globalna pristupa trajat će ___.
+	(1) Prilikom prilagodbe PRAM algoritma za APRAM računalo uz (p/B) procesora, gdje jedan APRAM procesor izvodi instrukcije za B PRAM procesora, jedna EREW PRAM instrukcija izvodi se u ___ koraka.
+	(1) Optimalna složenost algoritma reduciranja niza duljine n na APRAM računalu uz n procesora iznosi ___.
+	(1) Algoritam scan se odnosi na bilo koju ___ operaciju.
+	(2) Poželjna svojstva paralelnih programa su ___.

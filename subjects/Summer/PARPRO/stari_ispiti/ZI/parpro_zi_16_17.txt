@@ -1,0 +1,52 @@
+1.U svakoj od N kino dvorana prodan je odredeni broj ulaznica. 
+Potrebno je odrediti koliko je ukupno ulaznica prodano u svim dvoranama te taj podatak uciniti dostupan u svim dvoranama.
+Dvorane su ostvarene kao MPI procesi. Korištenjem MPI funkcija send i recv(skracena sintaksa) napisati odsjecak programa logaritamske složenosti.
+(po pitanju broja poslanih poruka) koji ce ostvariti opisani zadatak.
+U svakom procesu varijabla ID je indeks procesa-dvorane.
+
+2. Masovno paralelni evolucijski algoritam iyvodi se na P procesora. Populacija od N jedinki rasporedena je u 2D mrežu velicine sqrt(N)*sqrt(N).
+Svaki procesor zadužen je za jednaki kvadratni podskup jedinki(što obuhvaca barem 2*2 jedinki).
+Postupak odabira za svaku jedinku zahtijeva pristup svim neposrednim susjedima zadane jedinke (8 susjeda).
+Trošak racunanja nove vrijednosti jedinke je tc, a parametri komunikacije za jedinke su ts i tw.
+a)odredite trajanje jedne iteracije algoritma, te ucinkovitost i izoucinkovitost.
+b)analiticki izrazite ubrzanje algoritma za posebni slucaj kada je N=P
+
+3. Pralelni algoritam iterativno racuna nove vrijednosti elemenata matrice. 
+Nova vrijednost elemenata racuna se s pomocu vrijednosti svih elemenata u istom stupcu, iznad promatranog elementa.
+Trošak racunanja jednog elementa iznosi tc. 
+Izrazite trajanje izvodenja jedne iteracije na P procesora te ucinkovitost algoitma ako je matrica na procesore podijeljena: 
+a)po retcima(svaki procesor ima jednak broj redaka)
+b)po podmatricama jednakih dimenzija
+c)predložite podjelu matrice uz koju se postiže najbolja ucinkovitost paralelnog algoritma i odredite iznos te ucinkovitsti
+
+4.Paralelno racunalo placa se 1 kunu po satu po procesoru.
+Na raspolaganju nam je paralelni program cije se trajanje izvodenja može izraziti kao Tp=10+500/P(u satima).
+Cekanje na rezultaate programa uzrokuje trošak koji se može opisati izrazom Tr=12*Tp(u kunama).
+Koje trajanje izvodenja nam donosi minimalnu ukupnu potrošnju(cijena izvodenja +trošak) i uz koju ucinkovitost?
+
+5. Neki tekst je zapisan u obliku niza znakova T[] duljine n. 
+Napišite algoritam za EREW PRAM racunalo uz najviše n procesora kkoji ce ispitati duljinu najdulje recenice u tekstu.
+(po ukupnom broju znakova, ukljucujuci i razmake).
+Svaka recenica na kraju ima tocku.
+
+6. Paralelni algoritam izvodi reduciranje niza uz operaciju OP, gdje je svaki od n zadataka posjeduje jedan element niza.
+Trošak izvodenja jedne operacije OO Pza dva elementa je tc, a parametri komunikacije za pojedine elemente su ts i tw.
+Koliko traje izvodenje reduciranja ako se koristi:
+a)komunikacijska struktura lanca(svaki zadatak prima medurezultat od prethodnog zadatka, racuna medurezultat i šalje ga sljedbeniku)
+b) komunikacijska struktura binarnog stabla(broj zadataka je potencija broja 2)
+
+7.Navedite moguce uzroke neslaganja (nepotpunosti) jednostavnog modela trajanja paralelnog prgrama u usporedbi sa stvarnom izvedbom programa.
+Navedite i moguce uzroke "anomalije ubrzanja".
+
+8. Navedite nacine kompozicije modula u paralelnim programima(skicirajte vremenski odnos modula i procesora na kojima se izvode)
+
+9.a)Ukupan broj poruka koji se razmjene(pošalju) u provedbi komunikacijske strukture hiperkocke za 2^d procesa iznosi______.
+b) Povecanje zrnatosti može se postici tehnikama____________.
+c) Ako je ubrzanje linearno, ucinkovitost je(kakvog iznosa?)___________.
+d) Ukoliko se ubrzanje paralelnog programa mjeri u odnosu na najbolji slijedni program, radi se o________ ubrzanju.
+e) Izoucinkovitost opisuje kako se mora promijeniti_______ u ovisnosti kolicine posla (racunanja) kako bi _________ostala nepromijenjena.
+f) Faza pridruživanja se provodi ukoliko je broj _________ veci od broja _________.
+g) Prilikom višeprocesorskog istodobnog citanja iste memorijske lokacije u CRCW PRAM, svaki procesor ce procitati _________ vrijednost.
+h) T/N Uz smanjenje kolicine racunanja i nepromijenjene ostale elemente trajanja racunanja, ucinkovitost programa raste.
+i) T/N Kako bi ubrzanje bilo vece od 1 trajanje komunikacije i cekanja mora biti krace od racunanja na pojedinom procesu.
+j) T/N Trajanje racunanja(Tr) paralelnog programa može ovisiti o raspodjeli zadataka po procesorima.

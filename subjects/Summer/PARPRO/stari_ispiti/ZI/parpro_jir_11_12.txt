@@ -1,0 +1,65 @@
+1. (8b) MPI
+Za navedeni MPI program skicirati tijek izvođenja za svaki proces, uključujući stanje lokalnih varijabli nakon izvođenja. Uzeti u obzir moguću nedeterminiranost programa i skicirati tijek izvođenja za sve moguće scenarije. Posebno naznačiti ako u nekom od scenarija dolazi do potpunog zastoja.
+Svaki proces zna svoj identifikator pohranjen u lokalnu varijablu ID i ukupan broj procesa pohranjen u varijablu N.
+
+Proces1
+Send(&ID,_,_,2,_)
+Recv(&a,_,_,MPI_ANY_SOURCE,_)
+Send(&ID,_,_,3,_)
+Recv(&b,_,_,MPI_ANY_SOURCE,_)
+c=2a*b
+
+Proces2
+Recv(&a,_,_,MPI_ANY_SOURCE,_)
+Recv(&b,_,_,MPI_ANY_SOURCE,_)
+c=2a*b
+Send(&c,_,_,1,_)
+Send(&c,_,_,3,_)
+
+Proces3
+Send(&ID,_,_,2,_)
+Recv(&a,_,_,MPI_ANY_SOURCE,_)
+Recv(&b,_,_,MPI_ANY_SOURCE,_)
+Send(&a,_,_,1,_)
+c=2a*b
+
+2. (6b) CRCW 
+Implementirati CRCW algoritam logaritamske složenosti koji će za ulazni niz brojeva proizvoljne duljine vratiti duljinu najvećeg uređenog podniza.
+Npr. za ulazni niz P[]={5,6,4,7,8,11,11,10,15,16} algoritam treba pronaći najdulji podniz {4,7,8,11,11} i vratiti njegovu duljinu 5. Na raspolaganju su funkcije (pre)scan i reduce za bilo koji binarni operator.
+
+3. (6b)
+Koristeci MPI funkcije Send i Recv implementirati funkcionalnost barijere za sinkronizaciju N procesa. Rješenje može biti proizvoljne složenosti.
+
+4. (10b) Evolucijski alogritam prikazan odsječkom 1 implementiran je kao paralelni program po master-worker modelu na P+1 procesora (P radnika i jedan voditelj).
+Voditelj radnicima šalje N jedinki na evaluaciju te zatim prima evaluirane jedinke od svih radnika. Vrijeme evaluacije tc je bitno veće od vremena slanja (definirano kao ts i tw) pa se može očekivati da će voditelj provesti nezanemarivu količinu vremena čekajući na odgovore. 
+
+a) Izračunati ukupno vrijeme izvođenja programa i učinkovitost programa.
+b) Izračunati broj procesora s kojim će vrijeme izvođenja biti minimalno.
+
+===Odsječak 1===
+//master
+za i=1 do P
+	Send(N/P, _,_,P,_)
+za i=1 do P
+	Recv(N/P,_,_,P_)
+
+//worker
+Recv(N/P,_,_0,_)
+za i=1 do N/P
+	Evaluiraj(jedinka[i])
+Send(N/P,_,_,0,_)
+
+5. (10b) 10 teorijskih pitanja na nadopunjavanje po 1 bod
+- varijabla d kod aPRAMa predstavlja _______
+- navedi 3 primjene scan algoritma _________
+- uvišestručenje računanja znači _______ količine računanja kako bi se ______ količina komunikacije
+- povećanje zrnatosti možemo ostvariti tehnikama ____________________
+- navedite sve četiri vrste aPRAM instrukcija _______________________
+- ...
+
+
+
+6. (5b) Za paralelni algoritam čije je vrijeme izvođenja Tp=100N + N^2/P odrediti maksimalno ubrzanje po Amdahlovom zakonu ako je N=100 uz broj procesora P=10.
+Dodatno, izraziti ubrzanje i učinkovitost koristeći 'standardne' izraze.
+
+7. (5b) Cijena izvršavanja paralelnog programa je 2 kn po satu po procesoru. Slijedno izvršavanje programa traje dva tjedna. Ako  je učinkovitost programa definirana kao E=3/(2+P) odrediti kolika će biti cijena izvršavanja ukoliko izvršavanje programa traje 5 dana. Također odrediti je li moguće program izvršiti u 4 dana, kolika bi bila cijena izvršavanja u 4 dana i obrazložiti.
