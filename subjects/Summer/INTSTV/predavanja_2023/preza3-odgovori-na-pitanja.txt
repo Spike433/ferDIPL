@@ -1,0 +1,99 @@
+
+Tehnologije kratkog/srednjeg/dugog dometa za komunikaciju uredaja u 
+10T-u: 
+	• Kratkog dometa: Bluetooth, VLC,
+	• Srednjeg dometa: ZigBee, WIFI, Z-wave (bezicno), Ethernet, PLC (zicno)
+	• Dugog dometa: LoRa, Sigfox (low power wide area), NB-loT (pokretna mreza), fiber, xDSL (zicno)
+
+Usporedba prednosti i nedostataka nelicenciranog i licenciranog spektra: 
+
+	• Nelicensirani spektar: lakse postavljanje, veci kapacitet, manje regulacija, interferencija, manji 
+	domet
+	
+	• Licencirani spektar: Skuplji, veéa regulacija, manje interferencija, veéi domet. 
+	
+Uobiéajene frekvencije ispod IGHz koje se koriste u loT-u su: 
+	• 169 MHz, 433 MHz, 868 MHz EU, 915 MHz SAD 
+
+Kako je moguée Lßtedjeti energiju kod IOT uredaja: -->
+	low-power procesora i senzora. 
+	• Upotreba optimalne veliöine baterije i efikasnog upravljanja potrcßsnjom 
+	energue. 
+	• tehnika kao su sleep mode, deep sleep, i wake-on-radio. 
+
+Klase energetskog ograniéenja: 
+	• Class 0: ogranicenje dogadajem, sakupljanje iz dogadaja (npr micanje)
+	• Class 1: vremenskim periodom, SOLARNO
+	• Class 2: ogranicenje zivotnim vijekom, ENC
+	• Class 3: bez ogranicenja, spojeno na napajanje
+
+Strategije koriEtenja energije za komunikaciju:  -->
+	• niskosignalskih protokola. 
+	• efikasnih modulacijskih tehnika. 
+	• adaptivne snage za prilagodavanje daljine komunikacije. 
+	• efikasnih mehanizama upravljanja protokom i kontrolom 
+
+Mreine topologije i njihova primjena: 
+	• Zvijezda 
+	• peer to peer  
+	• stablo
+	• mesh	
+
+Tehnologije koje koriste IEEE 802.15.4: 
+	• Zigbee
+	• Thread
+	• 6LoWPAN
+
+Razlika između FDD (full-function device) i RFD (reduced-function device) klasa uređaja u IEEE 802.15.4:
+	FDD 
+		1. vise mogucnosti
+		2. slati, primati, usmjeravati pakete
+		3. kordinator
+		
+	RFD 
+		1. ogranicenje komunikacijske i sklopovske mogucnosti
+		2. malo trosi i spava
+		3. komunicira s FFD-ovima
+
+Razlika između sljedeća dva načina rada u IEEE 802.15.4: beacon-mode i non-beacon mode:
+	
+	Beacon mode 
+		1. duty cycling (cvor moze uci u sleep mode radi smanjenja potrosnje)
+		2. koriste csma/ca za izbjegavanje sudara okvira
+	
+	NonBeacon moode
+		1. komunikacija od tocke do tocke
+		2. kontinuirano osluksavanje stanja
+
+Koji algoritam za šifriranje se koristi u IEEE 802.15.4:
+
+	1. AES (Advanced Encryption Standard) 
+
+Što je ZigBee:
+
+	1. ZigBee je bežični protokol koji se koristi za umrežavanje i komunikaciju IoT uređaja
+	2. mala brzina veze, niska potrosnja, malo kasnjenje, sigurna komunikacija
+	3. do 65k uredaja
+
+Koje su funkcije mrežnog sloja (NWK) u ZigBeeu:
+
+	1. omogućuje stvaranje i upravljanje mrežama, te uspostavljanje sigurnosnih veza između uređaja.
+
+Što je AODV i čemu služi:
+
+	1. add on demand distance vector routing - usmjeravanje paketa do odredista
+
+Koje vrste sigurnosnih ključeva postoje u ZigBeeu i čemu služe:
+
+	Postoje tri vrste sigurnosnih ključeva u ZigBeeu: trust center link key (TCLK), network key (NWK key) i application link 
+	key (APP key). TCLK se koristi za uspostavljanje povjerljivih komunikacijskih veza između mrežnih uređaja, NWK ključ se 
+	koristi za šifriranje podataka na razini mreže, dok se APP ključevi koriste za šifriranje podataka na
+
+Razlike ZigBee i Z-Wave?
+	0. oba su popularni protokoli
+	1. Frekvencija - ZigBee 2,4GHz, Z-wave 868 (u Europi)
+	2. Z-wave je skuplji i zatvoren ekosustav
+	3. Zigbee najboljji kriptografski sustav
+	
+Sto je IEEE 802.11ah?
+	1. standard za povezivanje uredaja u Internetu (IoTu) sa velikim udaljenostima, niskom potrosnjom

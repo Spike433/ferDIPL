@@ -6,3 +6,5 @@ kon-nuirana provjera znanja:
 • ispitni rokovi
 • lab. vježbe 10%
 • pismeni ispit 90%
+
+80 sudionika

@@ -11,3 +11,5 @@ LV1: Govor i audio
  5 bodova
  LV4: VoiP (SIP)
  5 bodova
+
+Pronađeno 26 sudionik(a)
