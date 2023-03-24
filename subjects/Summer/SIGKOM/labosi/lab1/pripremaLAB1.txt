@@ -1,0 +1,68 @@
+1. 
+
+1.1 Protokol ARP služi za pretvaranje 32 bitnih IP adresa u 48
+bitne MAC adrese. Jednostavnije rečeno, koristimo ga za dinamičko
+otkrivanje MAC adresa, kako IP adrese koristimo za logičko adresiranje
+MAC adrese služe za fizičko.
+
+1.2 
+Računalo 1 : 
+IP = 192.168.1.1, 
+MAC = 6B:71:27:30:35:F3
+
+Računalo 2 : 
+IP = 192.168.1.2, 
+MAC = 85:0D:E0:9C:7D:D1
+
+Korak 1: računalo 1 projverava ima li u ARP spremištu MAC 
+adresa od računala 2. Ona ne postoji jer se komunikacija još 
+nije uspostavila.
+
+Korak 2: računalo 1 šalje broadcast ARP zahtijev sa pitanjem tko 
+ima adresu 192.168.1.2 uključujući svoje preslikavanje.
+
+Korak 3: preklopnik dobiva ARP zahtijev i šalje ga svim spojenim 
+uređajima osim onog koji je poslao.
+
+Korak 4: računalo 2 projverava poklapa li se tražena IP adresa sa
+njegovom. Ako je odgovor potvrdan, računalo 2 šalje svoju
+MAC (85:0D:E0:9C:7D:D1) adresu preko ARP odgovora.
+
+Korak 5: preklopnik dobiva ARP odgovor i prosljeđuje ga računalu
+1.
+
+Korak 6: računalo 1 prima odgovor i sprema ga u priručnu memoriju.
+Sada može direktno slati pomoću MAC adrese.
+
+2.
+
+Ne može, nema potvrde za ARP zahtijeve ili odgovore. 
+ARP smatra da u lokalnoj mreži svim uređajima se može vjerovati
+i nema nikakve mehanizme autentifikacije.
+
+ARPsec daje sigurnosne mjere koje sprečavaju ARP spoofing napade.
+ARP spoofing je čest napad pomoću kojeg se spaja hakerova MAC adresa 
+sa IP adresom valjanog uređaja.
+
+3.
+
+FF:FF:FF:FF:FF... itd
+
+4.
+
+NAT povezuje privatne IP adrese lokalne mreže sa javnima.
+
+Povećava sigurnost tako da skriva IP adrese uređaja u mreži i 
+stavlja dodatni sloj sigurnosti. Njime se sprečava neovlašten
+pristup i štit od raznih napada.
+
+Postavlja limit na broj konekcija i tako sprečava DoS napad.
+
+
+5. Koristi statički enkripcijski ključ za sve uređaje koji se spajaju 
+na mrežu. Lako je snimiti i dekriptirati mrežni promet. Koristi
+RC4 algoritam koji je lako probiti.
+
+Ovo je primjer krive upotrebe kriptografije jer pomoću gotovog
+alata aircrack-ng je moguće doći do dijeljene tajne.
+

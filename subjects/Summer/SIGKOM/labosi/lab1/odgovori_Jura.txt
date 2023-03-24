@@ -1,0 +1,103 @@
+1) Man in the middle
+
+Koju MAC adresu ima napadačevo računalo?
+	00:11:22:33:44:55, desni klik na računalo ili naredba ifconfig
+
+Na temelju snimljenog prometa i ARP tablica preslikavanja zaključite što se dogodilo. Objasnite.
+Zašto je to moguće napraviti? Kako biste se od ovakvog napada mogli zaštititi?
+
+	(10.0.0.1) at 42:00:aa:00:00:02 [ether] on eth0
+
+Nakon MTIMA
+
+	(10.0.0.210) at 00:11:22:33:44:55 [ether] on eth0
+	(10.0.0.1) at 00:11:22:33:44:55 [ether] on eth0
+	
+Preko ove skripte napadač je napravio prosljeđivanje paketa i nalazi se između PC-a i usmjeritelja.
+Onemogućen je IP redirect preko kojeg se neće tražiti kraća putanja i neće se izravno spojiti  PC i usmjeritelj.
+
+
+2) NAT
+
+Koja je izvorišna, a koja odredišna IP adresa svakog ICMP echo request paketa snimljenog u programu Wireshark? Kojim čvorovima pripadaju te IP adrese?
+
+Pingao sam cvor mm u Internet kartici, sa ip adresom 20.0.0.4.
+Izvorna IP adresa je 192.168.0.20 je od pc-a1 a odredistna 20.0.0.4.
+
+Istražite ove dvije naredbe. Što radi svaka od njih? 
+
+Naredbe sluze za konfiguraciju NAT tablica.
+    iptables -t nat -A POSTROUTING --out-interface <vanjsko sučelje> -j MASQUERADE       
+	
+	-j MASQUERADE --> izvorisna IP adresa se mijenja adresom izlaznog interfaca    
+	--out-interface eth2 --> izlazni interface
+	-t nat --> definicija tablice prilikom dolaska paketa
+	-A POSTROUTING --> izmjena paketa prilikom izlaza iz usmjeritelja	
+	
+	iptables -A FORWARD --in-interface <unutarnje sučelje> -j ACCEPT
+	
+	-A FORWARD --> prosljeduje pakete
+	--in-interface --> ulazni interface
+	-j ACCEPT --> prihvaca pakete	
+    
+	
+	iptables -A FORWARD --in-interface eth1 -j ACCEPT
+	iptables -t nat -A POSTROUTING --out-interface eth2 -j MASQUERADE
+
+Koja je sad izvorišna, a koja odredišna IP adresa svakog ICMP echo request paketa 
+snimljenog u programu Wireshark? 
+
+	Ponovnim pokretanjem sada je izvorisna adresa nat rutera 15.16.17.2.
+
+Kojim čvorovima pripadaju te IP adrese?
+	
+	Odredisna --> 20.0.0.4 (mm)
+	Izvorisna --> 192.168.0.20 (pc)
+
+Koja je izvorišna, a koja odredišna IP adresa svakog ICMP echo request paketa snimljenog u programu Wireshark? Kojim čvorovima pripadaju te IP adrese?
+Bez da zaustavljate pokrenutu naredbu ping, otvorite konzolu na nekom drugom 
+čvoru iz LAN mreže i pokrenite jednaku naredbu ping. Promatrajući samo IP 
+zaglavlja u programu Wireshark, možete li raspoznati s kojeg se točno čvora
+ šalje pojedini ICMP ping request? Zašto je tome tako?
+
+	Izvorisna je 15.16.17.2 od nata a odredisna 20.0.0.4. To se dogada zbog pravila postavljenih na natu. 
+
+Bez da zaustavljate pokrenutu naredbu ping, otvorite konzolu na nekom drugom čvoru iz LAN mreže i pokrenite jednaku naredbu ping. Promatrajući samo IP zaglavlja u programu Wireshark, možete li raspoznati s kojeg se točno čvora šalje pojedini ICMP ping request? Zašto je tome tako?
+Zaustavite eksperiment (Experiment -> Terminate).
+
+	Otkriti sa kojeg tocno cvora se salje nije moguce jer smo postavili pravila na natu sa izvornisnom adresom (15.16.17.2).
+
+ 
+3) Probijanje zaštite WEP za bežične mreže
+
+Upisao sam ove naredbe ispod >
+
+	$ aircrack-ng -a 1 -l key1.txt SIGKOM1_WEP.cap
+	$ aircrack-ng -a 1 -l key2.txt SIGKOM2_WEP.cap
+
+Koje se datoteke dohvaćaju i putem kojeg protokola
+aplikacijskog sloja? (Poslužite se opcijom Follow TCP Stream.)
+ 
+	Stavio sam filter ip.addr == 161.53.19.80, treba followat TCP Stream, plavo kojeg nema je server na klijenta a obratno je crveno.
+	Dohvaca se SUI-disk1.vmdk
+ 
+	Prijenos je pomocu HTTP aplikacijskog sloja, vidi se u prvom redu (HTTP 1.1).
+
+Proučite pcap datoteke u alatu Wireshark na svom operacijskom sustavu. U čemu se
+te pcap datoteke razlikuju?
+
+	Wireshark --> Statistics --> capture file properties
+
+	SIGKOM1_WEP
+		Duljina : 57MB
+		Broj paketa 98941
+		Vrijeme slanja paketa 94.5s
+		Avg velicina paketa 566B
+		Ukupna velicina 55.99MB
+
+	SIGKOM2_WEP
+		Duljina : 13MB
+		Broj paketa 164168
+		Vrijeme slanja paketa 161.37s
+		Avg velicina paketa 64B
+		Ukupna velicina 10.49MB
