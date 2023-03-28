@@ -1,0 +1,30 @@
+1. Kako se GRE tuneliranjem šifriraju preneseni podaci? Objasnite odgovor?
+
+Služi za tuneliranje paketa između mrežnih čvorova, ali nisu šifrirani.
+
+Možemo koristiti IPsec koji omogućuje šifriranje podataka. 
+IPsec i GRE su često dobitna kombinacija za prijenos i zaštitu.
+
+2. Koja je razlika između AH i ESP načina IPsec tuneliranja?
+
+Oba upotrebljivavaju kriptografiju za zaštitu autentičnosti, integriteta i privatnosti (CIA).
+
+AH sadrži samo autentičnost i integritet dok ESP pruža isto to 
+te još dodatno šifrira pakete. AH dodaje header u paket sa kodom i identitom sendera.
+ESP kriptira orginalni sadržaj i dodaje header o postupku koji se 
+koristi.
+
+
+3. Koja je razlika između tuneliranog i transportnog formata IPsec paketa?
+Tunelirani format štiti cijeli IP paket šifriranjem a transportni
+samo korisničke podatke (payload).
+
+Čemu služi sučelje wg u korištenju WireGuard VPN-a?
+
+Za konfiguraciju i upravljanje WireGuard tunelima. 
+
+1. Stvaranje, nadzor i održavanje konekcija.
+2. Upravljanje ključevima, postavkama tunela i adresama.
+
+Uz njega postoji kontrola VPN mreža i nema potrebe za dodatnim
+softverom.
