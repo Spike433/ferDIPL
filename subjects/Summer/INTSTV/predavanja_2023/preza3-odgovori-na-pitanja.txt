@@ -28,10 +28,10 @@ Klase energetskog ograniéenja:
 	• Class 3: bez ogranicenja, spojeno na napajanje
 
 Strategije koriEtenja energije za komunikaciju:  -->
-	• niskosignalskih protokola. 
-	• efikasnih modulacijskih tehnika. 
-	• adaptivne snage za prilagodavanje daljine komunikacije. 
-	• efikasnih mehanizama upravljanja protokom i kontrolom 
+	• iiskljuceno (spajanje po potrebi)
+	• niska potrosnja (periodicko iskljucivanje)
+	• uvijek ukljuceno (cijelo vrijeme aktivan)
+	
 
 Mreine topologije i njihova primjena: 
 	• Zvijezda 
