@@ -1,0 +1,114 @@
+1) Generic Routing Encapsulation (GRE) tuneliranje
+
+
+Kliknite na bilo koji Echo (ping) request paket unutar alata Wireshark i
+proučite strukturu paketa. Od kojih se zaglavlja sastoji paket? Ispišite ih u
+izvještaj.
+
+ICMP je wrappan u IPv4 koji je wrappan u GRE a oni svi su unutar Etherneta.
+
+#server
+ip tunnel add gre11 mode gre remote 10.0.7.2 local 10.0.9.2 ttl 255;ip link set gre11 up;ip addr add 11.11.11.1/24 dev gre11;ip addr show dev gre11
+
+#klijent
+ip tunnel add gre11 mode gre remote 10.0.9.2 local 10.0.7.2 ttl 255;ip link set gre11 up;ip addr add 11.11.11.2/24 dev gre11;ip addr show dev gre11
+
+
+
+2) Konfiguracija VPN-a korištenjem IPsec alata i dijeljenog ključa
+
+
+U izvještaj upišite vrijednosti polja koje ste upisali.
+
+moon - name (0036524365)
+Local IP 10.0.5.2
+Local sub 10.0.9.0/24
+Peers IP sun - n3 10.0.11.1
+Peers subnet 10.0.7.0 
+Shared key: sharedkey
+
+sun - name (0036524365)
+Local IP 10.0.11.1
+Local sub 10.0.7.0/24
+Peers IP moon - n2 10.0.5.2
+Peers subnet 10.0.9.0
+Shared key: sharedkey
+
+Koja je razlika naspram prometa prije uspostavljanja veze? Koje su
+informacije skrivene ovim načinom šifriranja?
+
+Razlika je u sučeljima.
+
+Orginal izgleda kao | Ethernet | IPv4 | ICPM | koji nastaje kao  -->  | Ehternet | IPv4 | ESP | zaštićeni podaci | gdje su izvorišne i 
+odredišne IPv4 adrese od rutera Mon i Sun.
+
+Kriptiranje se odvija preko ESP-a gdje je cijeli IPv4 je paket zaštićen tako što Source IP i Destination IP adrese nisu poznate. 
+Sun i Moon su mjesta gdje dolazi do dekripcije gdje nastaje orginalni IPv4 paket jer smo tamo konfigurirali svoj tunel.
+    
+Proučite ispis naredbe i usporedite s vrijednostima koje ste postavili pri
+konfiguraciji IPsec tunela. Kopirajte ga u izvještaj.
+
+src 10.0.12.2 dst 10.0.5.1
+        proto esp spi hash reqid 1 mode tunnel
+        replay-window 0 flag af-unspec
+        auth-trunc hmac(sha256) hash 128
+        enc cbc(aes) hash
+        anti-replay context: seq 0x0, oseq 0x0, bitmap 0x00000000
+    src 10.0.5.1 dst 10.0.12.2
+        proto esp spi 0xcdbc3aae reqid 1 mode tunnel
+        replay-window 32 flag af-unspec
+        auth-trunc hmac(sha256) hash 128
+        enc cbc(aes) hash
+        anti-replay context: seq 0x0, oseq 0x0, bitmap 0x00000000
+
+
+3) Konfiguracija VPN-a korištenjem IPsec alata i certifikata
+
+U izvještaj upišite poruke koje su izmjenjivali usmjeritelji prilikom
+dogovaranja ključeva i uspostave veze. Koji usmjeritelj je Initiator a koji
+Responder?
+
+Klasicno je prvo bio ARP request od 10.0.2.1, pitanje je tko ima 10.0.2.2.
+Dogovor za ključeve (ISAKMP protokol) kada routerX odgovara sa svojom MAC adresom.
+Prvo se javlja IKE_SA_INIT gdje moon je Initiator (prijedlog algoritama enkripcije i autentifikacije, možda će se koristiti pri izmjeni ključeva, nonce se može postaviti kako bi se poboljšala nasumičnost).
+Sun koji je responder odabire 4 algoritma od Initiatora, stvara nonce i šalje ga njemu.
+
+Drugi dio je kada IKE_AUTH gdje Initiator moon stvori poruku gjde ima podatke za izmjenu ključeva i kriptira ih pomoću algoritma kojeg je dobio od Respondera.
+Sa certifikatima se provjeravaju podaci koji su kriptirani za autentifikaciju.
+Sun koji je Responder odobrava postavke i šalje svoje podatke da ga Initiator projveri.
+
+
+4) WireGuard
+
+Dodajte i konfigurirajte "wireguard" sučelja:
+# server
+ip link add wg0 type wireguard;ip addr add 192.168.100.1/24 dev wg0;wg set wg0 private-key ./wg-private.key;ip link set wg0 up
+
+# klijent
+ip link add wg0 type wireguard;ip addr add 192.168.100.2/24 dev wg0;wg set wg0 private-key ./wg-private.key;ip link set wg0 up
+
+
+wg set wg0 peer qDfi3AXdO6SQ1Cdyc4Prw9Pe3v5vT3oO+cU7HsGE4g0= allowed-ips 192.168.100.2/32,10.0.7.2/32 
+
+wg set wg0 peer DlDSnQeySpFRsp+yjFU69usl72wVqMUx3SZ51UWWUVI= allowed-ips 192.168.100.1/32 endpoint 10.0.9.2:56708
+
+Naredbe koje ste koristili za stvaranje veze između čvora klijent2 i
+server upišite u izvještaj.
+
+#klijent2
+$ wg genkey | tee wg-private.key | wg pubkey > wg-public.key
+$ ip link add wg0 type wireguard
+$ ip addr add 192.168.100.3/24 dev wg0
+$ wg set wg0 private-key ./wg-private.key
+$ ip link set wg0 up
+$ wg
+
+
+#server
+$ wg set wg0 peer I2R2IXRLzGeFKRUx+jG5j7iVqVrq47wid4MARcZy8wM= allowed-ips 192.168.100.3/32,10.0.6.20/32    (IP address client2 = 10.0.6.20)
+$ wg
+
+#klijent2
+$ wg set wg0 peer DlDSnQeySpFRsp+yjFU69usl72wVqMUx3SZ51UWWUVI= allowed-ips 192.168.100.1/32 endpoint 10.0.9.2:56708
+$ ping 192.168.100.1
+
