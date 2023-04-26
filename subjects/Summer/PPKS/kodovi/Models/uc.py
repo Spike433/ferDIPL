@@ -1,24 +1,23 @@
 import math
 import pickle
-
 class Ucenik:
     def __init__(self, ime_ucenika):
-        self.ime_ucenika = ime_ucenika
-        self.predmeti = {}
+        self.name = ime_ucenika
+        self.subjects = {}
 
     def unesi_ocjenu(self, ocjena, predmet, datum_unosa):
-        if predmet not in self.predmeti:
-            self.predmeti[predmet] = []
-        self.predmeti[predmet].append({"ocjena": ocjena, "datum_unosa": datum_unosa})
+        if predmet not in self.subjects:
+            self.subjects[predmet] = []
+        self.subjects[predmet].append({"ocjena": ocjena, "datum_unosa": datum_unosa})
 
     def prosjek_predmet(self, predmet):
-        if predmet not in self.predmeti:
+        if predmet not in self.subjects:
             return 0
-        ukupni_zbroj_ocjena = sum(entry["ocjena"] for entry in self.predmeti[predmet])
-        return ukupni_zbroj_ocjena / len(self.predmeti[predmet])
+        ukupni_zbroj_ocjena = sum(entry["ocjena"] for entry in self.subjects[predmet])
+        return ukupni_zbroj_ocjena / len(self.subjects[predmet])
 
     def predmeti_rank(self):
-        lista_predmeta = list(self.predmeti.keys())
+        lista_predmeta = list(self.subjects.keys())
         lista_predmeta.sort(key=lambda predmet: self.prosjek_predmet(predmet), reverse=True)
         return lista_predmeta
 
@@ -28,44 +27,7 @@ class Ucenik:
         broj_svih_ocjena = 0
         zbroj_svih_ocjena = 0
 
-        for predmet, entries in self.predmeti.items():
-            prosjek_zbroja_predmeta += self.prosjek_predmet(predmet)
-            broj_predmeta += 1
-            for entry in entries:
-                zbroj_svih_ocjena += entry["ocjena"]
-                broj_svih_ocjena += 1
-        prosjek_po_predmetu = prosjek_zbroja_predmeta / broj_predmeta if broj_predmeta > 0 else 0
-        prosjek_svih_ocjena = zbroj_svih_ocjena / broj_svih_ocjena if broj_svih_ocjena > 0 else 0
-
-        return prosjek_po_predmetu, prosjek_svih_ocjena
-class Ucenik:
-    def __init__(self, ime_ucenika):
-        self.ime_ucenika = ime_ucenika
-        self.predmeti = {}
-
-    def unesi_ocjenu(self, ocjena, predmet, datum_unosa):
-        if predmet not in self.predmeti:
-            self.predmeti[predmet] = []
-        self.predmeti[predmet].append({"ocjena": ocjena, "datum_unosa": datum_unosa})
-
-    def prosjek_predmet(self, predmet):
-        if predmet not in self.predmeti:
-            return 0
-        ukupni_zbroj_ocjena = sum(entry["ocjena"] for entry in self.predmeti[predmet])
-        return ukupni_zbroj_ocjena / len(self.predmeti[predmet])
-
-    def predmeti_rank(self):
-        lista_predmeta = list(self.predmeti.keys())
-        lista_predmeta.sort(key=lambda predmet: self.prosjek_predmet(predmet), reverse=True)
-        return lista_predmeta
-
-    def globalni_prosjek(self):
-        prosjek_zbroja_predmeta = 0
-        broj_predmeta = 0
-        broj_svih_ocjena = 0
-        zbroj_svih_ocjena = 0
-
-        for predmet, entries in self.predmeti.items():
+        for predmet, entries in self.subjects.items():
             prosjek_zbroja_predmeta += self.prosjek_predmet(predmet)
             broj_predmeta += 1
             for entry in entries:
@@ -95,11 +57,11 @@ class UcenikPlus(Ucenik):
 
 class Razred:
     def __init__(self, ime_razreda, lista_ucenika):
-        self.ime_razreda = ime_razreda
-        self.lista_ucenika = lista_ucenika
+        self.className = ime_razreda
+        self.studentsList = lista_ucenika
 
     def ucenici_rank(self, predmet):
-        return sorted(self.lista_ucenika, key=lambda ucenik: ucenik.prosjek_predmet(predmet), reverse=True)
+        return sorted(self.studentsList, key=lambda ucenik: ucenik.prosjek_predmet(predmet), reverse=True)
 
     def save(self, file_path):
         with open(file_path, "wb") as file:
