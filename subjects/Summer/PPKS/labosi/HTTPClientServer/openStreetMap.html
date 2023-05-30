@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title id="tit">Map Example</title>
+    <style>
+        #map {
+            height: 470px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        h1{
+            text-align: center;
+            color: lightskyblue;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        #ti{
+            padding:0 20px 20px 20px;
+
+
+        }
+    </style>
+</head>
+<body>
+<h1>Map Example</h1>
+<div id="ti">
+    <label for="start-time">Pocetno vrijeme:</label>
+    <input type="datetime-local" id="start-time" name="start-time"> <br/>
+    <label for="end-time">Zavrsno vrijeme:</label>
+    <input type="datetime-local" id="end-time" name="end-time"><br/>
+    <button style="margin: 5px" onclick="filterByTime()">Filtriraj</button>
+</div>
+
+<div id="map"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbMvcxG7stkGQNMj6MbIXbUQ3IGTM6dl4&callback=initMap" async defer></script>
+<script>
+    var coordinates;
+    var path;
+    var map;
+    function initMap() {
+        // Kreirajte mapu
+
+        // Dohvatite koordinate sa servera
+        fetch('http://localhost:8000/cords')
+            .then(response => response.json())
+            .then(data => {
+                // Definirajte listu GPS koordinata
+
+                coordinates = data.map(item => ({ lat: item.lat, lng: item.lng,time: new Date(item.time * 1000)  }));
+                var count = coordinates.length;
+                var divisions = 2; // Specify the number you want to divide by
+
+                var stepSize = Math.ceil(count / divisions);
+
+                document.getElementById('start-time').value = coordinates[0].time.toISOString().slice(0, 16);
+                document.getElementById('end-time').value = new Date(coordinates[parseInt(coordinates.length)-1].time).toISOString().slice(0, 16);
+
+                // Sort coordinates by time
+                coordinates.sort(function(a, b) {
+                    return a.time - b.time;
+                });
+
+                var first = coordinates[stepSize];
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: first.lat, lng: first.lng}, // Postavite centar mape
+                    zoom: 3.5 // Postavite povećanje mape
+                });
+
+                // Kreirajte putanju koristeći koordinate
+                path = new google.maps.Polyline({
+                    path: coordinates,
+                    geodesic: true,
+                    strokeColor: '#b91674', // Postavite boju putanje
+                    strokeOpacity: 2.0,
+                    strokeWeight: 5 // Debljina linije putanje
+                });
+
+                // Prikazivanje putanje na mapi
+                path.setMap(map);
+            })
+            .catch(error => {
+                var errorElement = document.getElementById('error');
+                errorElement.textContent = 'Error: Server not working';
+                errorElement.style.display = 'block';
+                console.error('Error: Server not working', error);
+            });
+    }
+
+    function filterByTime() {
+        var startTime = new Date(document.getElementById('start-time').value);
+        var endTime = new Date(document.getElementById('end-time').value);
+
+        // Filtriraj GPS koordinate temeljem odabranog vremenskog raspona
+        var filteredCoordinates = coordinates.filter(function(coord) {
+            var a = coord.time.getTime() >= startTime.getTime();
+            var b = coord.time.getTime() <= endTime.getTime();
+
+            return a && b;
+        });
+
+        path.setMap(null);
+
+        path = new google.maps.Polyline({
+            path: filteredCoordinates,
+            geodesic: true,
+            strokeColor: '#0c15af', // Postavite boju putanje
+            strokeOpacity: 2.0,
+            strokeWeight: 5 // Debljina linije putanje
+        });
+
+        path.setMap(map);
+    }
+
+</script>
+</body>
+</html>

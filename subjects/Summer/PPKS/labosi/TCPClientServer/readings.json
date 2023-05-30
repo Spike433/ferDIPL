@@ -1,0 +1,5 @@
+{"sensorId":"id_1","quantity":"temperature","value":30.2,"unit":"C"}
+{"sensorId":"id_1","quantity":"temperature","value":31.4,"unit":"C"}
+{"sensorId":"id_1","quantity":"temperature","value":27.8,"unit":"C"}
+{"sensorId":"id_2","quantity":"temperature","value":22.1,"unit":"C"}
+{"sensorId":"id_2","quantity":"temperature","value":23.4,"unit":"C"}
