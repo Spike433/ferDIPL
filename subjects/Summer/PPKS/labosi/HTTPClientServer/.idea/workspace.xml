@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f423f938-7c42-46cb-9931-ee5a0f70eaf2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_9_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HTTPClientServer.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,8 +83,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.openStreetMap.html" />
         <item itemvalue="Application.PersonsHTTPGetServer" />
+        <item itemvalue="JavaScript Debug.openStreetMap.html" />
         <item itemvalue="Application.PersonHTTPClient" />
       </list>
     </recent_temporary>
@@ -104,7 +100,9 @@
       <workItem from="1685281800237" duration="8321000" />
       <workItem from="1685347861649" duration="6219000" />
       <workItem from="1685449551800" duration="6879000" />
-      <workItem from="1685461986238" duration="334000" />
+      <workItem from="1685461986238" duration="1014000" />
+      <workItem from="1685519573214" duration="563000" />
+      <workItem from="1685520631769" duration="305000" />
     </task>
     <servers />
   </component>

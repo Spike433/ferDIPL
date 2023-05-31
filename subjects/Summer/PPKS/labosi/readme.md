@@ -15,9 +15,7 @@ method and read coordinates from `lat_long_time.txt`
 
 - just open openStreetMap.html
 
-## Todo
+# Troubleshooting 
+## Filter button not working
 
-- `line 108` - endTime is not greater than current, comparison not working
-
-- `filteredCoordinates` aren't filtered correctly
-
+- change values from `9:07` to `9:15` and then move end or start towards `9:10` to see it in action, otherwise it won't work
