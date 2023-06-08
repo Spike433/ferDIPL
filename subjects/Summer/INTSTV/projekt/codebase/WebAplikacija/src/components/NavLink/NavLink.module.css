@@ -1,0 +1,17 @@
+.label {
+    color: #020045;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 24px;
+    border-bottom: 2px solid transparent;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.label:hover {
+    border-bottom: 2px solid white;
+}
+
+.label + .label {
+    margin-left: 24px;
+}
