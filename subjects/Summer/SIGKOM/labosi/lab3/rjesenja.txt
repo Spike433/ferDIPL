@@ -1,0 +1,182 @@
+1)
+
+#################################FW.sh##########################################
+
+#Drop custom address
+$IPT -A INPUT   -i eth0 -s 198.51.100.0/24  -j DROP
+$IPT -A FORWARD -i eth0 -s 198.51.100.0/24  -j DROP
+
+# 
+# SSH pristup iz Interneta je dozvoljen samo na racunalo "ssh"
+$IPT -A FORWARD -i eth0 -p tcp --dport 22 -d 198.51.100.10 -m state --state NEW,ESTABLISHED -j ACCEPT
+# <--- Dodajte pravila 
+
+#
+# na racunalu "web" se nalazi javni http i https posluzitelj
+$IPT -A FORWARD -i eth0 -p tcp -m multiport --dports 80,443 -d 198.51.100.11 -m state --state NEW,ESTABLISHED -j ACCEPT
+# <--- Dodajte pravila
+
+#
+# s posluzitelja web je dozvoljen pristup DNS poslužiteljima u Internetu 
+
+$IPT -A FORWARD -s 198.51.100.11 -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+$IPT -A FORWARD -s 198.51.100.11 -p tcp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+# <--- Dodajte pravila
+
+#
+# SSH pristup vatrozidu FW je dozvoljen samo s racunala int1 (LAN)
+
+$IPT -A INPUT -s 10.0.0.21 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+#this can't work because of NAT
+
+# <--- Dodajte pravila
+
+#
+# svim racunalima iz LAN mreze je dozvoljen pristup DMZ i Internetu 
+
+$IPT -A FORWARD -i eth2 -o eth0 -s 198.51.100.2 -m state --state NEW,ESTABLISHED -j ACCEPT
+#DMZ should be on left side
+
+##############################FW_int.sh######################################################
+
+# ================ Dodajte ili modificirajte pravila na oznacenim mjestima
+# 
+# "anti spoofing" (eth0)
+#
+$IPT -A INPUT   -i eth0 -s 127.0.0.0/8  -j DROP
+$IPT -A FORWARD -i eth0 -s 127.0.0.0/8  -j DROP
+#
+# <--- Dodajte ili modificirajte pravila 
+$IPT -A INPUT   -i eth0 -s 10.0.0.0/24  -j DROP
+$IPT -A FORWARD -i eth0 -s 10.0.0.0/24  -j DROP
+# Dropanje specificnih adresa
+# 
+# SSH pristup vatrozidu FW_int je dozvoljen samo s racunala int1 (LAN)
+
+$IPT -A INPUT -s 10.0.0.21 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+# <--- Dodajte pravila 
+
+#
+# SSH pristup posluzitelju web je dozvoljen samo s racunala int1 (LAN)
+
+$IPT -A FORWARD -s 10.0.0.21 -d 198.51.100.11 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+# <--- Dodajte pravila
+
+# 
+# SSH pristup posluzitelju ssh_int iz vanjske mreze je dozvoljen samo s posuzitelja ssh (DMZ)
+
+$IPT -A FORWARD -i eth0 -o eth1 -s 198.51.100.10 -d 10.0.0.10 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+
+# <--- Dodajte pravila 
+
+# 
+# iz LAN-a je dozvoljen pristup DMZ i Internetu 
+
+$IPT -A FORWARD -i eth1 -j ACCEPT
+
+# <--- Dodajte pravila 
+
+# 
+# za potrebe testiranja dozvoljen je ICMP (ping i sve ostalo)
+#
+
+2)
+
+1. skeniranje TCP i UDP portova
+2. TCP syn scan
+3. detekcija operacijskog sustava (-O)
+4. detekcija verzija servisa (-sV)
+5. općeniti scan (-A opcija)
+
+$ ssh 198.51.100.10 - radi (certifikat)
+$ ssh 198.51.100.11 - ne radi (no respone)
+$ ssh 192.0.2.1 - ne radi (no respone)
+$ ssh 198.51.100.2 - ne radi (no respone)
+
+
+$ sudo himage int1 ssh 10.0.0.10 - radi
+$ sudo himage int1 ssh 198.51.100.10 - radi
+$ sudo himage int1 ssh 198.51.100.11 - radi 
+$ sudo himage int1 ssh 192.0.2.1 - ne radi
+$ sudo himage int1 ssh 198.51.100.2 - radi
+
+##################Skeniranje NMAP###################################################
+
+bash1: 
+$ sudo himage ssh watch -n 0.5 netstat -ant
+
+bash2:
+sudo nmap -n -Pn -sU -sT "-p20-25,53,80,443" 198.51.100.10 (skeniranje TCP i UDP portova)
+sudo nmap -n -Pn -sS "-p20-25,53,80,443" 198.51.100.10 (TCP syn scan)
+sudo nmap -n -Pn -O 198.51.100.10 (detekcija operacijskog sustava (-O))
+sudo nmap -n -Pn -sV 198.51.100.10 (detekcija verzija servisa (-sV)) 
+
+===> sudo nmap -n -Pn -A 198.51.100.10 <====== (općeniti scan (-A opcija))
+
+
+Navedite koji je način skeniranja prouzročio promjenu ispisa naredbe watch netstat. Objasnite.
+
+Korištenje naredbe sudo nmap -n -Pn -A 198.51.100.10 mijenja ispis.
+Vidimo da drugi ispis ima lokalnu adresu 198.51.100.10:22 sa jednom od ovih 
+stranih adresa (203.0.113.20:45796,203.0.113.20:45788,203.0.113.20:45798)
+Korišten je status TIME_WAIT.
+
+#####################Početni ispis###################
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address
+ State
+tcp        0      0 0.0.0.0:111             0.0.0.0:*
+ LISTEN
+tcp        0      0 0.0.0.0:22              0.0.0.0:*
+ LISTEN
+tcp        0      0 127.0.0.1:25            0.0.0.0:*
+ LISTEN
+tcp6       0      0 :::111                  :::*
+ LISTEN
+tcp6       0      0 :::22                   :::*
+ LISTEN
+
+#####################Izmjenjen ispis###################
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address
+ State
+tcp        0      0 0.0.0.0:111             0.0.0.0:*
+ LISTEN
+tcp        0      0 0.0.0.0:22              0.0.0.0:*
+ LISTEN
+tcp        0      0 127.0.0.1:25            0.0.0.0:*
+ LISTEN
+tcp        0      0 198.51.100.10:22        203.0.113.20:45796
+ TIME_WAIT
+tcp        0      0 198.51.100.10:22        203.0.113.20:45788
+ TIME_WAIT
+tcp        0      0 198.51.100.10:22        203.0.113.20:45798
+ TIME_WAIT
+tcp        0      0 198.51.100.10:22        203.0.113.20:45790
+ TIME_WAIT                                                      
+
+3)
+
+Nadopunite datoteke FW.sh i FW_init.sh pravilima potrebnim za ovaj zadatak.
+
+Opišite što ste sve morali konfigurirati na poslužiteljima. Navedite 3 opcije 
+u konfiguracijskoj datoteci koje biste uključili/isključili kako bi ssh
+poslužitelji bili bolje zaštićeni. Objasnite.
+
+Dodao sam pravilo $IPT -A FORWARD -i eth0 -o eth1 -s 198.51.100.10 -d 10.0.0.10 -p tcp --dport 2222 -j ACCEPT
+
+Promijenio passworde sa naredbom passwd jer default nije radilo.
+
+Stavio sam naredbe:
+PermitRootLogin yes
+PermitEmptyPassword yes
+PermitPasswordAutehnitcate yes
+
+Za bolju sigurnost bolje je imati ovo:
+PermitRootLogin no
+PubKeyAutentification yes
+PermitEmptyPasswords no
