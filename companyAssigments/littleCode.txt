@@ -1,0 +1,32 @@
+
+c#
+- koji su sve access modifieri osim pubilca i privata (protected, internal, ...)
+- stack vs heap?
+- apstraktna klasa vs interface
+- immutable string, (kreira se novi objekt)
+- var a = await asinkronaFJa(), sto vraca (task)
+- sto je record, kako se ponasa u odnosu na klasu (record usporeduje vrijednosti dok klasa reference)
+- staticki konstruktor, sto je
+- sto je memory leakage
+- sto su generici, sto znaci : where class
+- cemu sluze i koriste li se eventovi?
+- sto je static
+- imamo vise asnyc awaitova, kako paralelno pokrenemo (when.all)
+- sto je yield
+- koji su tipovi lista (list, hashmap, ienumerable)
+- kako poslati dio stringa u metodu (span)
+- kako raditi spajanje stringova umjesto plusa (stringBuilder)
+
+.net core
+- lifecycle stanja (singleton, scoped, transient)
+- sto je delegat
+
+ Entity framework
+- sto je eager loading (sa includom), sto je lazy loading (bez includa)
+- sto je i kako nastaje middleware
+
+Oidc
+- kako radi, cemu sluzi token
+
+azure
+- imas li nekih iskustva s njime
