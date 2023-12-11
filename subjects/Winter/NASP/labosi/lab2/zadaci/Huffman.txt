@@ -1,0 +1,132 @@
+import heapq
+
+TOL_DEC = 3
+TOLERANCE = 10**-TOL_DEC
+
+
+class Node:
+    """Node in a Huffman tree
+    """
+
+    def __init__(self, prob, symbol, left=None, right=None):
+        self.prob = prob  # probability of symbol
+        self.symbol = symbol
+        self.left = left
+        self.right = right
+
+        # incoming tree direction to node (0/1) - root has ''
+        self.code = ''
+
+    def __lt__(self, other: 'Node') -> bool:
+        """enables comparisons between objects
+
+        Args:
+            other (Node): other object in comparison
+
+        Returns:
+            bool: True if self is LESS THAN other,
+                  False otherwise
+        """
+        # Implement node comparison with numerical tolerance
+        if abs(self.prob - other.prob) > TOLERANCE:
+            return self.prob < other.prob
+        else:
+            return self.symbol < other.symbol
+
+def Huffman_tree(symbol_with_probs: dict) -> Node:
+    """Builds Huffman tree
+
+    Args:
+        symbol_with_probs (dict): dictionary symbol-probability that describes the problem
+
+    Returns:
+        Node: root of the built Huffman tree
+    """
+    symbols = symbol_with_probs.keys()
+    nodes_queue = []
+
+    # Initialize priority queue with leaf nodes
+    for symbol, prob in symbol_with_probs.items():
+         heapq.heappush(nodes_queue, Node(prob, symbol))
+
+    # Build Huffman tree by combining nodes with the lowest probability
+    while len(nodes_queue) > 1:
+        node1 = heapq.heappop(nodes_queue)
+        node2 = heapq.heappop(nodes_queue)
+
+        # Combine nodes and reinsert into the priority queue
+        combined_prob = node1.prob + node2.prob
+        combined_name = ''.join(sorted(node1.symbol + node2.symbol))
+        
+        if node1.prob < node2.prob or (node1.prob == node2.prob and combined_name < node2.symbol):
+            combined_node = Node(combined_prob, combined_name, left=node1, right=node2)
+        else:
+            combined_node = Node(combined_prob, node2.symbol, left=node1, right=node2)
+			  
+        combined_node.left.code = '0'
+        combined_node.right.code = '1'
+					
+        heapq.heappush(nodes_queue, combined_node)
+
+    return nodes_queue[0]
+
+
+####################### IT'S BETTER NOT TO MODIFY THE CODE BELOW ##############
+
+
+def calculate_codes(node: Node, val: str = '', codes=None) -> dict:
+    # calculates codewords for Huffman subtree starting from node
+
+    if codes is None:
+        codes = {}
+
+    newVal = val + str(node.code)
+
+    if(node.left):
+        calculate_codes(node.left, newVal, codes)
+    if(node.right):
+        calculate_codes(node.right, newVal, codes)
+
+    if(not node.left and not node.right):
+        codes[node.symbol] = newVal
+
+    return codes
+
+
+def Huffman_encode(data: str, coding: dict) -> str:
+    # encodes
+    encoding_output = []
+    for c in data:
+        encoding_output.append(coding[c])
+    string = ''.join([str(item) for item in encoding_output])
+    return string
+
+
+def Huffman_decode(encoded_data: str, huffman_tree: Node) -> str:
+    tree_head = huffman_tree
+    decoded_output = []
+    for x in encoded_data:
+        if x == '1':
+            huffman_tree = huffman_tree.right
+        elif x == '0':
+            huffman_tree = huffman_tree.left
+        # check if leaf
+        if huffman_tree.left is None and huffman_tree.right is None:
+            decoded_output.append(huffman_tree.symbol)
+            huffman_tree = tree_head
+
+    string = ''.join([str(item) for item in decoded_output])
+    return string
+
+
+def roundToDecimals(num: float, decimals: int) -> float:
+    """Rounds number to significant decimals
+
+    Args:
+        num (float): number to round
+        decimals (int): number of significant decimals
+
+    Returns:
+        float: rounded number
+    """
+    return round(num*10**decimals)/10**decimals
