@@ -1,0 +1,15 @@
+Što je ping of death napad?
+Što je UDP amplification napad?
+Koji su dijelovi osobnog digitalnog certifikata?
+Koji su sigurni, a koji nesigurni mehanizmi/protokoli za bežičnu komunikaciju, tipa wep..?
+Koju vrstu zaštite koristi dnssec?
+Načini napada na TCP i kako rade?
+Što je pogodnije za port scanning i zašto, tcp ili udp?
+Na koji sigurnosni zahtjev utječe ddos napad?
+Što znači kratica CIA u kontekstu sigurnosti?
+Generalno treba znati sve o gre tunnelingu i ipsec-u s labosa.
+Znati strukturu paketa u oba načina gre tunnelinga.
+Znati sve o arpspoofing napadu i kako se provodi.
+Znati kako se provodi MITM napad  i strukturu icmp echo req i respond poruka. 
+Znati iptables pravila s labosa.
+
