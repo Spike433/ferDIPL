@@ -1,0 +1,59 @@
+```
+IPv4 i IPv6
+•	svako moguće zaglavlje u IPv6 (koja su nova, koja stara i čemu služe)
+•	koliki max može bit parametar duljina podataka u ipv6 zaglavlju – 65535B (2^16 jer 16 bitova je dugo polje duljina podatkovnog polja)
+•	nabrojat ipv6 dodatna zaglavlja i gdje se koristi neko od njih.
+•	koja polja su izbačena (ona za fragmentaciju, veličina zaglavlja jer sad je fiksno i zaštitna suma)
+•	zašto nema zaštitne sume (jer se više vremena gubilo na njenu provjeru)
+•	kako funkcionira fragmentiranje u IPv6
+•	koja je min max velicina ipv4 zaglavlja
+•	Razlike između ipv4 i ipv6
+•	NDP VS ARP
+•	tunelski i transportni način rada
+•	beskonačna petlja u ipv4 i ipv6 (sprječavamo ju s ttlom)
+•	kojim protokolom se dodjeljuje IP adresa računalu
+•	sigurnost ipv6, 
+•	kako to da je ipv4 u funkciji još uvijek a ima tako mali broj adresa (zbog lokalnih adresa, ruter ima jednu adresu od ISP, a onda se 30 ljudi može spojit na njega i dobiva adresu od ruterea)
+•	velicina adr prostora ip4 ip6
+•	Esp i ipsec
+•	NDP funkcije
+
+RIP, OSPF, BGP
+•	RIP
+•	OSPF
+•	BGP
+•	jel može na usmjeravanje tih protokola utjecat mrežni administrator
+•	rip vs ospf
+•	beskonačna petlja u ripu (brojanje u beskonačnost)
+
+IoT
+•	općenito
+•	koje su njihove prednosti i mane
+•	senzori za neku infrastrukturu mogu bit kritični, pa zahtijevaju veću brzinu
+•	roboti zahtijevaju brzinu da se ne sudare u tvornici
+•	coap i mqtts
+
+5G
+•	općenito i novosti i poboljšanje u odnosu na 4G
+•	koji mehanizmi se koriste (tražio odgovor mrežni odsječci)
+
+
+GPRS (objasnit sta radi koji čvor, koje su brzine prijenosa podataka u GPRS, a kolike u GSM, i TBF objasnit sta je)
+razlika u odnosu UMTS i GSM, gdje se koristi ono prometna klasa.
+UMTS i 4G mreža razlike (pokaže ti sliku mreže UMTS i onda iskomentiraš to i onda te pita koja je razlika između toga i 4G).
+SIGTRAN
+I za broj skokova me pitao gdje to važno
+prvo me pitao bih li znao nešto kompliciranije napravit u CPN (?)
+SIP (kod 4G)
+Kako operator u drugoj zemlji može potvrditi našu autentičnost (upitom u domaći HLR)
+Pokaze slajd IMS (kod 4G) pa moraš pričat o SIP-u, HSS-u i onom za naplatu (cscf il tak nes)
+fragmentacija.
+peer to peer (spomenite torrent, razlika u odnosu na clibet server je što peer može istovremeno razašiljati podatke)
+mvno- virtualni operatori
+Petrijeve mreze (konfliktni i simultani prijelazi)
+Svojstva petrijeve mreže
+pita po ZI kaj niste znali, nakon kaj vas pita kako ste zadovoljni s ispitom
+pita onaj LTE zadatak pa na slajdu vam pokaze LTE mrežu sa onim MME/HSS itd., pa morate objasnit te čvorove i koja im je funkcija
+onda pita još kojim čvorovima se prenose podaci
+mene pitao i paradigme kojima komuniciraju uređaji u IoT. 
+```
